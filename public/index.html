@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>The Segmentometer</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha512-MoRNloxbStBcD8z3M/2BmnT+rg4IsMxPkXaGh2zD6LGNNFE80W3onsAhRcMAMrSoyWL9xD7Ert0men7vR8LUZg==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+        <link rel="stylesheet" href="/app.min.css" />
+    </head>
+    <body>
+        <script id="campaignListHeaderTemplate" type="text/template">
+            <div class="card">
+                <div class="card-header bg-secondary" data-id="{{campaignId}}">
+                    <i class="{{accordionIcon}}"></i>
+                    {{campaignName}}
+                </div>
+                <div class="collapse">
+                    <ul class="list-group">
+        </script>
+        <script id="campaignListCharacterTemplate" type="text/template">
+                        <li class="list-group-item list-group-item-action">
+                            <i class="{{checkIcon}}" data-id="{{characterId}}"></i>
+                            {{name}}
+                            <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
+                        </li>
+        </script>
+        <script id="campaignListFooterTemplate" type="text/template">
+                    </ul>
+                </div>
+            </div>
+        </script>
+        <script id="combatTableRowHeaderTemplate" type="text/template">
+            <tr data-id="{{characterId}}">
+                <td class="text-left">
+                    {{name}}
+                    <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
+                </td>
+                <td>{{speed}}</td>
+                <td>{{dex}}</td>
+        </script>
+        <script id="combatTableCellActiveTemplate" type="text/template">
+                <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}}"></i></td>
+        </script>
+        <script id="combatTableCellInactiveTemplate" type="text/template">
+                <td><i class="{{icon}}"></i></td>
+        </script>
+        <script id="combatTableRowFooterTemplate" type="text/template">
+            </tr>
+        </script>
+        <div class="row">
+            <div class="col-auto">
+                <div id="campaignList" class="accordion">
+                </div>
+            </div>
+            <div class="col">
+                <div class="mt-2 mb-2">
+                    <div class="btn-toolbar justify-content-between">
+                        <div class="btn-group mr-2">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#newCharacterModal">
+                                <i class="fas fa-user-plus"></i> New
+                            </button>
+                            <button id="exportButton" class="btn btn-primary">
+                                <i class="fas fa-file-export"></i> Export
+                            </button>
+                        </div>
+                        <div class="btn-group battleTableControls">
+                            <button id="clearButton" class="btn btn-primary">
+                                <i class="fas fa-users-slash"></i> Clear
+                            </button>
+                            <button id="startButton" class="btn btn-primary">
+                                <i class="fas fa-house-user"></i> Start
+                            </button>
+                            <button id="nextButton" class="btn btn-primary">
+                                <i class="fas fa-play"></i> Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th class="text-left">Character</th>
+                            <th>SPD</th>
+                            <th>DEX</th>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                            <th>10</th>
+                            <th>11</th>
+                            <th>12</th>
+                        </tr>
+                    </thead>
+                    <tbody id="combatTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="newCharacterModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="newCharacterForm" autocomplete="off">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-light">Add Character</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="newCharacterCampaign">Campaign</label>
+                                    <input type="text" class="form-control" id="newCharacterCampaign" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="newCharacterName">Name</label>
+                                    <input type="text" class="form-control" id="newCharacterName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="newCharacterSpeed">Speed</label>
+                                    <select class="custom-select" id="newCharacterSpeed">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="newCharacterDex">Dex</label>
+                                    <input type="text" class="form-control" id="newCharacterDex" required>
+                                </div>
+                                <div class="form-group col mt-4">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="newCharacterPc" name="newCharacterPc" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="newCharacterPc">
+                                            <i class="fas fa-user text-primary"></i> PC
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="newCharacterNpc" name="newCharacterPc" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="newCharacterNpc">
+                                            <i class="fas fa-robot text-secondary"></i> NPC
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="newCharacterFormCancelButton" type="button" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="editCharacterModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="editCharacterForm" autocomplete="off">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-light">Edit Character</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="editCharacterCampaign">Campaign</label>
+                                    <input type="text" class="form-control" id="editCharacterCampaign" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="editCharacterName">Name</label>
+                                    <input type="text" class="form-control" id="editCharacterName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="editCharacterSpeed">Speed</label>
+                                    <select class="custom-select" id="editCharacterSpeed">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="editCharacterDex">Dex</label>
+                                    <input type="text" class="form-control" id="editCharacterDex" required>
+                                </div>
+                                <div class="form-group col mt-4">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="editCharacterPc" name="editCharacterPc" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="editCharacterPc">
+                                            <i class="fas fa-user text-primary"></i> PC
+                                        </label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="editCharacterNpc" name="editCharacterPc" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="editCharacterNpc">
+                                            <i class="fas fa-robot text-secondary"></i> NPC
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="editCharacterFormCancelButton" type="button" class="btn btn-secondary">
+                                <i class="fas fa-window-close"></i> Cancel
+                            </button>
+                            <button id="editCharacterFormDeleteButton" type="button" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="post12" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h1 class="text-center p-5">Post 12 Recovery</h1>
+                        <button class="btn btn-primary float-right" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha512-M5KW3ztuIICmVIhjSqXe01oV2bpe248gOxqmlcYrEzAvws7Pw3z6BK0iGbrwvdrUQUhi3eXgtxp5I8PDo9YfjQ==" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.0.2/dexie.min.js" integrity="sha512-Vir5zWsvcM/cvv/YIpguFo1Ppx4mtFrY9llk6iJmx3jgBh5zcjP4Hz80xuEAoqwBTBUx9wSViEM2i8lCfv/i6g==" crossorigin="anonymous"></script>
+        <script src="/champions.min.js"></script>
+        <script src="/app.min.js"></script>
+    </body>
+</html>

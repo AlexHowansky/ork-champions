@@ -1,0 +1,31 @@
+* {
+    font-weight: bold;
+}
+
+body {
+    user-select: none;
+}
+
+table {
+    text-align: center;
+}
+
+div.row {
+    width: 100%;
+}
+
+div.row>div {
+    padding-right: 0;
+}
+
+div.accordion>div.card>div.card-header, /* Campaign accordion header toggles. */
+i.fas[data-cid], /* PC/NPC icons. */
+#campaignList i.fas[data-id], /* Campaign accordion selection checkboxes. */
+#combatTable>tr>td[data-segment] /* Specific segment selectors. */
+{
+    cursor: pointer;
+}
+
+.template {
+    display: none;
+}
