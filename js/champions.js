@@ -29,9 +29,7 @@ var champions = (function () {
             .where('active')
             .equals(1)
             .toArray()
-            .then(
-                characters => characters.sort(sortByDex)
-            );
+            .then(characters => characters.sort(sortByDex));
     }
 
     function getCharacter(character) {
@@ -42,29 +40,27 @@ var champions = (function () {
     function getCharacters() {
         return db.characters
             .toArray()
-            .then(
-                characters => characters.sort(sortByCampaign)
-            );
+            .then(characters => characters.sort(sortByCampaign));
     }
 
     function getCurrentCampaign() {
-        return db.parameters.get('currentCampaign');
+        return db.parameters
+            .get('currentCampaign');
     }
 
     function getCurrentCharacter() {
-        return db.parameters.get('currentCharacter');
+        return db.parameters
+            .get('currentCharacter');
     }
 
     function getCurrentSegment() {
-        return db.parameters.get('currentSegment');
+        return db.parameters
+            .get('currentSegment');
     }
 
     function isCharacterActive(characterId) {
-        return db.characters.get(characterId).then(character => character.active);
         return db.characters
-            .where('id')
-            .equals(character)
-            .first()
+            .get(characterId)
             .then(character => character.active);
     }
 
@@ -74,21 +70,24 @@ var champions = (function () {
     }
 
     function reset() {
-        return setCurrentSegment(null).then(setCurrentCharacter(null));
+        return setCurrentSegment(null)
+            .then(setCurrentCharacter(null));
     }
 
     function setCurrentCampaign(campaign) {
-        return db.parameters.get('currentCampaign').then(currentCampaign => {
-            return db.parameters.put(currentCampaign === campaign ? 0 : campaign, 'currentCampaign');
-        });
+        return db.parameters
+            .get('currentCampaign')
+            .then(currentCampaign => db.parameters.put(currentCampaign === campaign ? 0 : campaign, 'currentCampaign'));
     }
 
     function setCurrentCharacter(character) {
-        return db.parameters.put(character, 'currentCharacter');
+        return db.parameters
+            .put(character, 'currentCharacter');
     }
 
     function setCurrentSegment(segment) {
-        return db.parameters.put(segment, 'currentSegment');
+        return db.parameters
+            .put(segment, 'currentSegment');
     }
 
     function sortByCampaign(a, b) {
@@ -132,7 +131,8 @@ var champions = (function () {
 
     function updateCharacter(characterId, character)
     {
-        return db.characters.update(characterId, character);
+        return db.characters
+            .update(characterId, character);
     }
 
     return {
