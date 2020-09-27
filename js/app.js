@@ -52,9 +52,29 @@ $(function() {
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
+                $('#editCharacterMaxEnd').val(character.maxEnd);
+                $('#editCharacterMaxStun').val(character.maxStun);
+                $('#editCharacterMaxBody').val(character.maxBody);
+                $('#editCharacterMaxRec').val(character.maxRec);
+                $('#editCharacterEnd').val(character.end);
+                $('#editCharacterStun').val(character.stun);
+                $('#editCharacterBody').val(character.body);
+                if (character.pc) {
+                    $('#editCharacterStats').hide();
+                } else {
+                    $('#editCharacterStats').show();
+                }
                 $('#editCharacterFormDeleteButton').data('id', character.id);
                 $('#editCharacterModal').modal('show');
             });
+    });
+
+    $('#editCharacterRestButton').click(function() {
+        recover($('#editCharacterFormDeleteButton').data('id'), true);
+    });
+
+    $('#editCharacterRecoverButton').click(function() {
+        recover($('#editCharacterFormDeleteButton').data('id'), false);
     });
 
     // Deactivate all characters, removing them from the combat table and unchecking them in the campaign list.
@@ -113,7 +133,14 @@ $(function() {
                 name: $('#editCharacterName').val(),
                 speed: parseInt($('#editCharacterSpeed').val()),
                 dex: parseInt($('#editCharacterDex').val()),
-                pc: $('#editCharacterPc:checked').val() ? 1 : 0
+                pc: $('#editCharacterPc:checked').val() ? 1 : 0,
+                maxEnd: parseInt($('#editCharacterMaxEnd').val()),
+                maxStun: parseInt($('#editCharacterMaxStun').val()),
+                maxBody: parseInt($('#editCharacterMaxBody').val()),
+                maxRec: parseInt($('#editCharacterMaxRec').val()),
+                end: parseInt($('#editCharacterEnd').val()),
+                stun: parseInt($('#editCharacterStun').val()),
+                body: parseInt($('#editCharacterBody').val())
             }
         ).then(() => {
             $('#editCharacterModal').modal('hide');
@@ -121,6 +148,14 @@ $(function() {
             renderCampaignList();
             renderCombatTable();
         })
+    });
+
+    $('#editCharacterPc').click(function(event) {
+        $('#editCharacterStats').hide();
+    });
+
+    $('#editCharacterNpc').click(function(event) {
+        $('#editCharacterStats').show();
     });
 
     $('#newCharacterFormCancelButton').click(function(event) {
@@ -195,6 +230,31 @@ $(function() {
             11: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             12: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         }[speed];
+    }
+
+    function recover(cid, rest = false) {
+        champions.getCharacter(cid)
+            .then(character => {
+                if (rest) {
+                    character.end = character.maxEnd;
+                    character.stun = character.maxStun;
+                    character.body = character.maxBody;
+                } else {
+                    character.end = Math.min(character.end + character.maxRec, character.maxEnd);
+                    character.stun = Math.min(character.stun + character.maxRec, character.maxStun);
+                }
+                champions.updateCharacter(
+                    $('#editCharacterFormDeleteButton').data('id'),
+                    {
+                        end: character.end,
+                        stun: character.stun,
+                        body: character.body
+                    }
+                );
+                $('#editCharacterEnd').val(character.end);
+                $('#editCharacterStun').val(character.stun);
+                $('#editCharacterBody').val(character.body);
+            });
     }
 
     function renderCampaignList() {

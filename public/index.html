@@ -187,7 +187,7 @@
                                     <input type="text" class="form-control" id="editCharacterName" required>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row align-items-end">
                                 <div class="form-group col">
                                     <label for="editCharacterSpeed">Speed</label>
                                     <select class="custom-select" id="editCharacterSpeed">
@@ -209,7 +209,7 @@
                                     <label for="editCharacterDex">Dex</label>
                                     <input type="text" class="form-control" id="editCharacterDex" required>
                                 </div>
-                                <div class="form-group col mt-4">
+                                <div class="form-group col">
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="editCharacterPc" name="editCharacterPc" class="custom-control-input" required>
                                         <label class="custom-control-label" for="editCharacterPc">
@@ -221,6 +221,49 @@
                                         <label class="custom-control-label" for="editCharacterNpc">
                                             <i class="fas fa-robot text-secondary"></i> NPC
                                         </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="editCharacterStats">
+                                <div class="row align-items-end">
+                                    <div class="form-group col-2">
+                                        <label for="editCharacterMaxEnd">End</label>
+                                        <input type="text" class="form-control" id="editCharacterMaxEnd" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label for="editCharacterMaxStun">Stun</label>
+                                        <input type="text" class="form-control" id="editCharacterMaxStun" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label for="editCharacterMaxBody">Body</label>
+                                        <input type="text" class="form-control" id="editCharacterMaxBody" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <label for="editCharacterMaxRec">Rec</label>
+                                        <input type="text" class="form-control" id="editCharacterMaxRec" required>
+                                    </div>
+                                    <div class="form-group col">
+                                        <button type="button" id="editCharacterRestButton" class="btn btn-warning">
+                                            <i class="fas fa-bed"></i> Rest
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row align-items-end">
+                                    <div class="form-group col-2">
+                                        <input type="text" class="form-control border-warning" id="editCharacterEnd" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <input type="text" class="form-control border-warning" id="editCharacterStun" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                        <input type="text" class="form-control border-warning" id="editCharacterBody" required>
+                                    </div>
+                                    <div class="form-group col-2">
+                                    </div>
+                                    <div class="form-group col">
+                                        <button type="button" id="editCharacterRecoverButton" class="btn btn-warning">
+                                            <i class="fas fa-medkit"></i> Recover
+                                        </button>
                                     </div>
                                 </div>
                             </div>
