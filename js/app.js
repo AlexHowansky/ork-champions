@@ -111,8 +111,8 @@ $(function() {
             {
                 campaign: $('#editCharacterCampaign').val(),
                 name: $('#editCharacterName').val(),
-                speed: $('#editCharacterSpeed').val(),
-                dex: $('#editCharacterDex').val(),
+                speed: parseInt($('#editCharacterSpeed').val()),
+                dex: parseInt($('#editCharacterDex').val()),
                 pc: $('#editCharacterPc:checked').val() ? 1 : 0
             }
         ).then(() => {
