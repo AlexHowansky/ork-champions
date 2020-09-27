@@ -33,6 +33,23 @@ $(function() {
             .then(renderCombatTable());
     });
 
+    // The native file upload widget is hidden, so we'll proxy this click through to it.
+    $('#importButton').click(function() {
+        $('#importFile').click();
+    });
+
+    // Import characters.
+    $('#importFile').change(function() {
+        var reader = new FileReader();
+        reader.readAsText($('#importFile').prop('files')[0]);
+        reader.onload = function(event) {
+            JSON.parse(event.target.result).forEach(character => champions.putCharacter(character));
+            renderCampaignList();
+            renderCombatTable();
+        }
+    });
+
+    // Export characters.
     $('#exportButton').click(function() {
         champions.getCharacters().then(characters => {
             characters.forEach(character => delete character.id);
@@ -69,10 +86,12 @@ $(function() {
             });
     });
 
+    // Reset END, STUN, BODY to max.
     $('#editCharacterRestButton').click(function() {
         recover($('#editCharacterFormDeleteButton').data('id'), true);
     });
 
+    // Take a recovery.
     $('#editCharacterRecoverButton').click(function() {
         recover($('#editCharacterFormDeleteButton').data('id'), false);
     });
@@ -90,15 +109,17 @@ $(function() {
             .then(enableBattleTableControls(false));
     });
 
+    // Start combat on segment 12.
     $('#startButton').click(function() {
         champions.reset().then(findNext());
     });
 
+    // Advance to the next player's phase.
     $('#nextButton').click(function() {
         findNext();
     });
 
-    // Clicking directly on a combat table cell sets the current turn to that point.
+    // Clicking directly on a combat table cell sets the current phase to that point.
     $('#combatTable').on('click', 'tr>td[data-segment]', function() {
         champions.setCurrentCharacter($(this).data('character')).then(
             champions.setCurrentSegment($(this).data('segment')).then(
@@ -107,6 +128,7 @@ $(function() {
         );
     });
 
+    // Cancel a character edit without saving changes.
     $('#editCharacterFormCancelButton').click(function(event) {
         $('#editCharacterModal').modal('hide');
         $('#editCharacterForm').trigger('reset');
@@ -124,6 +146,7 @@ $(function() {
             });
     });
 
+    // Save character edits.
     $('#editCharacterForm').submit(function(event) {
         event.preventDefault();
         champions.updateCharacter(
@@ -150,19 +173,23 @@ $(function() {
         })
     });
 
+    // If we have a PC, hide the extra stats. (PCs track their own.)
     $('#editCharacterPc').click(function(event) {
         $('#editCharacterStats').hide();
     });
 
+    // If we have an NPC, show the extra stats.
     $('#editCharacterNpc').click(function(event) {
         $('#editCharacterStats').show();
     });
 
+    // Cancel character create.
     $('#newCharacterFormCancelButton').click(function(event) {
         $('#newCharacterModal').modal('hide');
         $('#newCharacterForm').trigger('reset');
     });
 
+    // Save a new character.
     $('#newCharacterForm').submit(function(event) {
         event.preventDefault();
         champions.putCharacter({
@@ -184,6 +211,7 @@ $(function() {
         $('.battleTableControls>button').prop('disabled', !enable);
     }
 
+    // Determine the next player's phase.
     function findNext() {
         champions.getCurrentCharacter().then(currentCharacter => {
             champions.getCurrentSegment().then(currentSegment => {
@@ -211,10 +239,12 @@ $(function() {
         });
     }
 
+    // Get the icon for a particular active status.
     function getActiveIcon(active) {
         return active ? config.checkedIcon : config.uncheckedIcon;
     }
 
+    // Get the active segments for a particular speed.
     function getSegmentsForSpeed(speed) {
         return {
             1: [7],
@@ -232,6 +262,7 @@ $(function() {
         }[speed];
     }
 
+    // Take a recovery or rest.
     function recover(cid, rest = false) {
         champions.getCharacter(cid)
             .then(character => {
@@ -257,6 +288,7 @@ $(function() {
             });
     }
 
+    // Render the campaign list.
     function renderCampaignList() {
         return champions.getCharacters()
             .then(characters => {
@@ -291,6 +323,7 @@ $(function() {
             .then(campaign => toggleAccordion('campaignList', campaign));
     }
 
+    // Render the combat table.
     function renderCombatTable() {
         $('#combatTable>tr').remove();
         return champions.getActiveCharacters()
@@ -331,6 +364,7 @@ $(function() {
             })
     }
 
+    // Highlight the current segment.
     function renderCombatTableHighlight(currentCharacter, currentSegment) {
         $('#combatTable>tr>td').removeClass('bg-warning');
         if (currentSegment > 0) {
@@ -340,16 +374,19 @@ $(function() {
         }
     }
 
+    // Does a speed act in a particular segment?
     function speedActsInSegment(speed, segment) {
         return getSegmentsForSpeed(speed).includes(segment);
     }
 
+    // Render a template.
     function template(id, vars = {}) {
         var text = $('#' + id).html();
         Object.entries(vars).forEach(([key, value]) => text = text.replace(new RegExp(`{{${key}}}`, 'g'), `${value}`));
         return text;
     }
 
+    // Toggle an accordion.
     function toggleAccordion(accordionId, cardHeaderId) {
         $('#' + accordionId + '>div.card>div.card-header[data-id]').each(function() {
             var icon = $(this).find('i.fas');

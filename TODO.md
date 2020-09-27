@@ -1,4 +1,3 @@
-* Add character import.
 * Gracefully detect duplicate character names.
 * Allow clicking on name to activate/deactivate.
 * Add form validation.
