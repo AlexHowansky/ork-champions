@@ -7,7 +7,7 @@ No server-side scripting or storage is required, as all character and state data
 # Installation
 
 Use my installation at [champions.howansky.org](https://champions.howansky.org/) or simply host these files somewhere and
-hit them with a reasonably modern browser.
+hit `public/index.html` with a reasonably modern browser.
 
 # Features
 
