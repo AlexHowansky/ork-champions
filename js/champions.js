@@ -58,6 +58,22 @@ var champions = (function () {
             .get('currentSegment');
     }
 
+    function getDuplicateName(name) {
+        var num = 0;
+        var base = name.replace(/ \(\d+\)$/, '');
+        var pattern = new RegExp('^' + base + ' \\((\\d+)\\)$');
+        return getCharacters()
+            .then(characters => {
+                characters.forEach(character => {
+                    var match = character.name.match(pattern);
+                    if (match && match[1] > num) {
+                        num = parseInt(match[1]);
+                    }
+                });
+                return base + ' (' + ++num + ')';
+            });
+    }
+
     function isCharacterActive(characterId) {
         return db.characters
             .get(characterId)
@@ -144,6 +160,7 @@ var champions = (function () {
         getCurrentCampaign: getCurrentCampaign,
         getCurrentCharacter: getCurrentCharacter,
         getCurrentSegment: getCurrentSegment,
+        getDuplicateName: getDuplicateName,
         isCharacterActive: isCharacterActive,
         putCharacter: putCharacter,
         reset: reset,
