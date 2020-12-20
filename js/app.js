@@ -69,13 +69,13 @@ $(function() {
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
-                $('#editCharacterMaxEnd').val(character.maxEnd);
-                $('#editCharacterMaxStun').val(character.maxStun);
-                $('#editCharacterMaxBody').val(character.maxBody);
-                $('#editCharacterMaxRec').val(character.maxRec);
-                $('#editCharacterEnd').val(character.end);
-                $('#editCharacterStun').val(character.stun);
-                $('#editCharacterBody').val(character.body);
+                $('#editCharacterMaxEnd').val(character.maxEnd || '');
+                $('#editCharacterMaxStun').val(character.maxStun || '');
+                $('#editCharacterMaxBody').val(character.maxBody || '');
+                $('#editCharacterMaxRec').val(character.maxRec || '');
+                $('#editCharacterEnd').val(character.end || '');
+                $('#editCharacterStun').val(character.stun || '');
+                $('#editCharacterBody').val(character.body || '');
                 if (character.pc) {
                     $('#editCharacterStats').hide();
                 } else {
@@ -282,9 +282,9 @@ $(function() {
                         body: character.body
                     }
                 );
-                $('#editCharacterEnd').val(character.end);
-                $('#editCharacterStun').val(character.stun);
-                $('#editCharacterBody').val(character.body);
+                $('#editCharacterEnd').val(character.end || '');
+                $('#editCharacterStun').val(character.stun || '');
+                $('#editCharacterBody').val(character.body || '');
             });
     }
 
