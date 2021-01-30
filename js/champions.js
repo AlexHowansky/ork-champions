@@ -119,7 +119,10 @@ var champions = (function () {
     function sortByDex(a, b) {
         if (a.dex === b.dex) {
             if (a.speed === b.speed) {
-                return sortByName(a, b);
+                if (a.pc === b.pc) {
+                    return sortByName(a, b);
+                }
+                return b.pc - a.pc;
             }
             return b.speed - a.speed;
         }
