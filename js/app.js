@@ -359,9 +359,9 @@ $(function() {
                         characterId: character.id,
                         name: character.name,
                         speed: character.speed,
-                        end: character.pc ? '' : character.end ?? 0,
-                        stun: character.pc ? '' : character.stun ?? 0,
-                        body: character.pc ? '' : character.body ?? 0,
+                        end: character.pc ? '' : (character.end ? character.end : 0),
+                        stun: character.pc ? '' : (character.stun ? character.stun : 0),
+                        body: character.pc ? '' : (character.body ? character.stun : 0),
                         dex: character.dex,
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
                         pcTitle: character.pc ? 'PC' : 'NPC'
