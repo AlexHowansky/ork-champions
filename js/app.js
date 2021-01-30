@@ -398,7 +398,7 @@ $(function() {
         $('#combatTable>tr>td').removeClass('bg-warning');
         if (currentSegment > 0) {
             $($('#combatTable>tr:nth-child(' + (currentCharacter + 1) + ')')
-                .find('td')[currentSegment + 2])
+                .find('td')[currentSegment + 5])
                 .addClass('bg-warning');
         }
     }
