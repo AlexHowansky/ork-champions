@@ -148,27 +148,21 @@ $(function() {
 
     // Duplicate a character via the character edit modal.
     $('#editCharacterFormDuplicateButton').click(function(event) {
-        champions.getDuplicateName($('#editCharacterName').val())
-            .then(newName => {
-                champions.putCharacter({
-                    campaign: $('#editCharacterCampaign').val(),
-                    name: newName,
-                    speed: parseInt($('#editCharacterSpeed').val()),
-                    dex: parseInt($('#editCharacterDex').val()),
-                    pc: $('#editCharacterPc:checked').val() ? 1 : 0,
-                    maxEnd: parseInt($('#editCharacterMaxEnd').val()),
-                    maxStun: parseInt($('#editCharacterMaxStun').val()),
-                    maxBody: parseInt($('#editCharacterMaxBody').val()),
-                    maxRec: parseInt($('#editCharacterMaxRec').val()),
-                    end: parseInt($('#editCharacterEnd').val()),
-                    stun: parseInt($('#editCharacterStun').val()),
-                    body: parseInt($('#editCharacterBody').val())
-                }).then(() => {
-                    $('#editCharacterModal').modal('hide');
-                    $('#editCharacterForm').trigger('reset');
-                    renderCampaignList();
-                    renderCombatTable();
-                })
+        champions.getCharacter($('#editCharacterFormDeleteButton').data('id'))
+            .then(character => {
+                champions.getDuplicateName(character.name)
+                    .then(duplicateName => {
+                        duplicateCharacter = Object.assign({}, character);
+                        duplicateCharacter.name = duplicateName;
+                        delete duplicateCharacter.id;
+                        champions.putCharacter(duplicateCharacter);
+                    })
+                    .then(() => {
+                        $('#editCharacterModal').modal('hide');
+                        $('#editCharacterForm').trigger('reset');
+                        renderCampaignList();
+                        renderCombatTable();
+                    })
             });
     });
 
