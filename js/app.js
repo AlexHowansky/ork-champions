@@ -40,10 +40,39 @@ $(function() {
 
     // Import characters.
     $('#importFile').change(function() {
+        var file = $('#importFile').prop('files')[0];
         var reader = new FileReader();
-        reader.readAsText($('#importFile').prop('files')[0]);
+        reader.readAsText(file);
         reader.onload = function(event) {
-            JSON.parse(event.target.result).forEach(character => champions.putCharacter(character));
+            if (file.name.endsWith('.hdc')) {
+                var parser = new DOMParser();
+                var xml = parser.parseFromString(event.target.result, 'text/xml');
+                var body = 10 + getXml(xml, 'BODY');
+                var con = 10 + getXml(xml, 'CON');
+                var dex = 10 + getXml(xml, 'DEX');
+                var str = 10 + getXml(xml, 'STR');
+                var end = 2 * con + getXml(xml, 'END');
+                var speed = Math.floor(1 + (dex / 10) + getXml(xml, 'SPD'));
+                var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
+                var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
+                champions.putCharacter({
+                    active: 1,
+                    body: body,
+                    campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME') || 'N/A',
+                    dex: dex,
+                    end: end,
+                    maxBody: body,
+                    maxEnd: end,
+                    maxRec: rec,
+                    maxStun: stun,
+                    name: getXml(xml, 'CHARACTER_INFO', 'CHARACTER_NAME'),
+                    pc: 0,
+                    speed: speed,
+                    stun: stun,
+                });
+            } else {
+                JSON.parse(event.target.result).forEach(character => champions.putCharacter(character));
+            }
             renderCampaignList();
             renderCombatTable();
         }
@@ -280,6 +309,11 @@ $(function() {
             11: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             12: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
         }[speed];
+    }
+
+    function getXml(xml, tag, attr = 'LEVELS') {
+        var value = xml.getElementsByTagName(tag)[0].getAttribute(attr);
+        return isNaN(value) ? value : Number(value);
     }
 
     // Take a recovery or rest.
