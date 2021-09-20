@@ -1,4 +1,16 @@
 {
+    "name": "ork/champions",
+    "type": "project",
+    "description": "Champions RPG Battle Tracker",
+    "homepage": "https://github.com/AlexHowansky/ork-champions",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Howansky",
+            "email": "alex.howansky@gmail.com",
+            "homepage": "https://github.com/AlexHowansky"
+        }
+    ],
     "require": {
         "matthiasmullie/minify": "^1.3"
     },
