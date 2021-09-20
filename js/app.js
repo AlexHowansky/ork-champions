@@ -244,8 +244,8 @@ $(function() {
         champions.putCharacter({
             campaign: $('#newCharacterCampaign').val(),
             name: $('#newCharacterName').val(),
-            speed: $('#newCharacterSpeed').val(),
-            dex: $('#newCharacterDex').val(),
+            speed: parseInt($('#newCharacterSpeed').val()),
+            dex: parseInt($('#newCharacterDex').val()),
             active: 0,
             pc: $('#newCharacterPc:checked').val() ? 1 : 0
         }).then(() => {
