@@ -328,7 +328,7 @@ $(function() {
         champions.getActiveCharacters()
             .then(characters => {
                 characters.forEach(character => {
-                    if (character.end > 0 && character.stun > 0) {
+                    if (!character.pc && character.end > 0 && character.stun > 0) {
                         recover(character.id);
                     }
                 })
