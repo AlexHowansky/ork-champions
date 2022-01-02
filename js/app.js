@@ -405,9 +405,9 @@ $(function() {
                         characterId: character.id,
                         name: character.name,
                         speed: character.speed,
-                        end: character.pc ? '' : (character.end ? character.end : 0),
-                        stun: character.pc ? '' : (character.stun ? character.stun : 0),
-                        body: character.pc ? '' : (character.body ? character.body : 0),
+                        end: xOfY(character, 'end', 'maxEnd'),
+                        stun: xOfY(character, 'stun', 'maxStun'),
+                        body: xOfY(character, 'body', 'maxBody'),
                         dex: character.dex,
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
                         pcTitle: character.pc ? 'PC' : 'NPC'
@@ -474,6 +474,16 @@ $(function() {
                 icon.removeClass().addClass(config.accordionClosedIcon);
             }
         });
+    }
+
+    function xOfY(character, x, y) {
+        if (character.pc) {
+            return '';
+        }
+        if (character[x] === character[y]) {
+            return character[x];
+        }
+        return '<span class="text-info">' + character[x] + '</span> (' + character[y] + ')';
     }
 
     renderCampaignList()
