@@ -9,7 +9,6 @@
 * Export should export combat sheet as well as characters?
 * Add a recover button to each character in the battle table.
 * Gracefully detect duplicate character names.
-* Allow clicking on name to activate/deactivate.
 * Add form validation.
 * Add characters to battle map by dragging?
 * Combine setCharacter/setSegment into one function?
