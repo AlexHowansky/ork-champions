@@ -23,7 +23,7 @@
                         <li class="list-group-item list-group-item-action">
                             <i class="{{checkIcon}}" data-id="{{characterId}}"></i>
                             <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
-                            {{name}}
+                            <span data-cid="{{characterId}}">{{name}}</span>
                         </li>
         </script>
         <script id="campaignListFooterTemplate" type="text/template">
@@ -35,7 +35,7 @@
             <tr data-id="{{characterId}}">
                 <td class="text-left">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
-                    {{name}}
+                    <span data-cid="{{characterId}}">{{name}}</span>
                 </td>
                 <td>{{end}}</td>
                 <td>{{stun}}</td>
