@@ -255,6 +255,11 @@ $(function() {
         })
     });
 
+    // Dismiss the post 12 recovery modal.
+    $('#post12OkButton').click(function(event) {
+        renderCombatTable();
+    });
+
     // We'll disable the battle table controls when there are no characters active.
     function enableBattleTableControls(enable = true) {
         $('.battleTableControls>button').prop('disabled', !enable);
@@ -273,6 +278,7 @@ $(function() {
                         if (++currentCharacter >= characters.length) {
                             currentCharacter = 0;
                             if (++currentSegment > 12) {
+                                post12();
                                 currentSegment = 1;
                                 $('#post12').modal('show');
                             }
@@ -316,6 +322,18 @@ $(function() {
         return isNaN(value) ? value : Number(value);
     }
 
+    // Take a recovery for all active and conscious characters.
+    function post12() {
+        champions.getActiveCharacters()
+            .then(characters => {
+                characters.forEach(character => {
+                    if (character.end > 0 && character.stun > 0) {
+                        recover(character.id);
+                    }
+                })
+            });
+    }
+
     // Take a recovery or rest.
     function recover(cid, rest = false) {
         champions.getCharacter(cid)
@@ -329,7 +347,7 @@ $(function() {
                     character.stun = Math.min(character.stun + character.maxRec, character.maxStun);
                 }
                 champions.updateCharacter(
-                    $('#editCharacterFormDeleteButton').data('id'),
+                    cid,
                     {
                         end: character.end,
                         stun: character.stun,

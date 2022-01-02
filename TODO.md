@@ -8,7 +8,6 @@
 * Bug: New character doesn't show end/stun/body for NPC.
 * Export should export combat sheet as well as characters?
 * Add a recover button to each character in the battle table.
-* Automatically recover all NPCs on post-12?
 * Gracefully detect duplicate character names.
 * Allow clicking on name to activate/deactivate.
 * Add form validation.
