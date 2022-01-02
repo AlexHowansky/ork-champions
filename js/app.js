@@ -30,6 +30,7 @@ $(function() {
     $('#campaignList').on('click', 'div.card>div.collapse>ul>li>i.fas[data-id]', function() {
         champions.toggleCharacterActive($(this).data('id'))
             .then(active => $(this).removeClass().addClass(getActiveIcon(active)))
+            .then(recover($(this).data('id'), true))
             .then(renderCombatTable());
     });
 
