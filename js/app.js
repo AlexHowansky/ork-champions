@@ -91,7 +91,7 @@ $(function() {
     });
 
     // Open the edit character modal.
-    $('body').on('click', 'i.fas[data-cid]', function() {
+    $('body').on('click', '*[data-cid]', function() {
         champions.getCharacter($(this).data('cid'))
             .then(character => {
                 $('#editCharacterCampaign').val(character.campaign);
