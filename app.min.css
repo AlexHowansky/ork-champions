@@ -1,1 +1,1 @@
-*{font-weight:700}body{user-select:none}table{text-align:center}div.row{width:100%}div.row>div{padding-right:0}div.accordion>div.card>div.card-header,i.fas[data-cid],#campaignList i.fas[data-id],#combatTable>tr>td[data-segment]{cursor:pointer}.template{display:none}
+*{font-weight:700}body{user-select:none}table{text-align:center}div.row{width:100%}div.row>div{padding-right:0}div.accordion>div.card>div.card-header,*[data-cid],#campaignList i.fas[data-id],#combatTable>tr>td[data-segment]{cursor:pointer}.template{display:none}
