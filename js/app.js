@@ -18,6 +18,9 @@ $(function() {
         accordionClosedIcon: 'fas fa-chevron-right',
         accordionOpenIcon: 'fas fa-chevron-down',
 
+        // Action/status icons used in the battle table.
+        knockedOutIcon: '<i class="fas fa-dizzy text-danger" title="Knocked Out"></i>',
+
     }
 
     // Open/close the selected accordion segment.
@@ -411,7 +414,8 @@ $(function() {
                         body: xOfY(character, 'body', 'maxBody'),
                         dex: character.dex,
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
-                        pcTitle: character.pc ? 'PC' : 'NPC'
+                        pcTitle: character.pc ? 'PC' : 'NPC',
+                        knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
                     });
                     for (var segment = 1; segment <= 12; segment++) {
                         if (speedActsInSegment(character.speed, segment)) {
