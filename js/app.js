@@ -20,6 +20,7 @@ $(function() {
 
         // Action/status icons used in the battle table.
         knockedOutIcon: '<i class="fas fa-dizzy text-danger" title="Knocked Out"></i>',
+        recoveryIcon: '<i class="fas fa-plus-square text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
 
     }
 
@@ -117,6 +118,18 @@ $(function() {
                 $('#editCharacterFormDeleteButton').data('id', character.id);
                 $('#editCharacterModal').modal('show');
             });
+    });
+
+    // Take a recovery.
+    $('body').on('click', '*[data-recovery]', function() {
+        champions.getCharacter($(this).data('recovery'))
+            .then(character => {
+                if (!character.pc) {
+                    character.end = Math.min(character.end + character.maxRec, character.maxEnd);
+                    champions.updateCharacter($(this).data('recovery'), {end: character.end});
+                    renderCombatTable();
+                }
+            })
     });
 
     // Reset END, STUN, BODY to max.
@@ -423,6 +436,7 @@ $(function() {
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
                         pcTitle: character.pc ? 'PC' : 'NPC',
                         knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
+                        recoveryIcon: character.pc ? '' : (character.end < character.maxEnd ? config.recoveryIcon : '')
                     });
                     for (var segment = 1; segment <= 12; segment++) {
                         if (speedActsInSegment(character.speed, segment)) {
@@ -469,6 +483,7 @@ $(function() {
     // Render a template.
     function template(id, vars = {}) {
         var text = $('#' + id).html();
+        Object.entries(vars).forEach(([key, value]) => text = text.replace(new RegExp(`{{${key}}}`, 'g'), `${value}`));
         Object.entries(vars).forEach(([key, value]) => text = text.replace(new RegExp(`{{${key}}}`, 'g'), `${value}`));
         return text;
     }

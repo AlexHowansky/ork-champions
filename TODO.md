@@ -7,7 +7,6 @@
 * Inactivate duplicate button if there are unsaved edits.
 * Bug: New character doesn't show end/stun/body for NPC.
 * Export should export combat sheet as well as characters?
-* Add a recover button to each character in the battle table.
 * Gracefully detect duplicate character names.
 * Add form validation.
 * Add characters to battle map by dragging?
