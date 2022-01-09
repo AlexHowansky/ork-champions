@@ -36,19 +36,18 @@
                 <td class="text-left">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
                     <span data-cid="{{characterId}}">{{name}}</span>
-                    {{knockedOutIcon}}
                 </td>
                 <td>{{end}}</td>
-                <td>{{stun}}</td>
+                <td>{{stun}} {{knockedOutIcon}}</td>
                 <td>{{body}}</td>
                 <td>{{speed}}</td>
                 <td>{{dex}}</td>
         </script>
         <script id="combatTableCellActiveTemplate" type="text/template">
-                <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}}"></i></td>
+            <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}}"></i></td>
         </script>
         <script id="combatTableCellInactiveTemplate" type="text/template">
-                <td><i class="{{icon}}"></i></td>
+            <td><i class="{{icon}}"></i></td>
         </script>
         <script id="combatTableRowFooterTemplate" type="text/template">
             </tr>
