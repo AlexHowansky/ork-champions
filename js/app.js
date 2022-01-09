@@ -102,13 +102,13 @@ $(function() {
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
-                $('#editCharacterMaxEnd').val(character.maxEnd || '');
-                $('#editCharacterMaxStun').val(character.maxStun || '');
-                $('#editCharacterMaxBody').val(character.maxBody || '');
-                $('#editCharacterMaxRec').val(character.maxRec || '');
-                $('#editCharacterEnd').val(character.end || '');
-                $('#editCharacterStun').val(character.stun || '');
-                $('#editCharacterBody').val(character.body || '');
+                $('#editCharacterMaxEnd').val(character.maxEnd || 0);
+                $('#editCharacterMaxStun').val(character.maxStun || 0);
+                $('#editCharacterMaxBody').val(character.maxBody || 0);
+                $('#editCharacterMaxRec').val(character.maxRec || 0);
+                $('#editCharacterEnd').val(character.end || 0);
+                $('#editCharacterStun').val(character.stun || 0);
+                $('#editCharacterBody').val(character.body || 0);
                 if (character.pc) {
                     $('#editCharacterStats').hide();
                 } else {
@@ -251,7 +251,14 @@ $(function() {
             speed: parseInt($('#newCharacterSpeed').val()),
             dex: parseInt($('#newCharacterDex').val()),
             active: 0,
-            pc: $('#newCharacterPc:checked').val() ? 1 : 0
+            pc: $('#newCharacterPc:checked').val() ? 1 : 0,
+            maxEnd: 0,
+            maxStun: 0,
+            maxBody: 0,
+            maxRec: 0,
+            end: 0,
+            stun: 0,
+            body: 0
         }).then(() => {
             $('#newCharacterModal').modal('hide');
             $('#newCharacterForm').trigger('reset');
@@ -358,9 +365,9 @@ $(function() {
                         body: character.body
                     }
                 );
-                $('#editCharacterEnd').val(character.end || '');
-                $('#editCharacterStun').val(character.stun || '');
-                $('#editCharacterBody').val(character.body || '');
+                $('#editCharacterEnd').val(character.end || 0);
+                $('#editCharacterStun').val(character.stun || 0);
+                $('#editCharacterBody').val(character.body || 0);
             });
     }
 
