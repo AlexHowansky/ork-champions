@@ -1,4 +1,5 @@
 # About
+
 `ork-champions` is a simple character initiative manager for the [Champions/HERO System](https://www.herogames.com/)
 table top role playing game.
 
@@ -6,8 +7,8 @@ No server-side scripting or storage is required, as all character and state data
 
 # Installation
 
-Use my installation at [champions.howansky.org](https://champions.howansky.org/) or simply host these files somewhere and
-hit `public/index.html` with a reasonably modern browser.
+Use the [GitHub Pages installation](https://alexhowansky.github.io/ork-champions/) or simply host these files somewhere
+and hit `public/index.html` with a reasonably modern browser.
 
 # Features
 
@@ -17,6 +18,9 @@ hit `public/index.html` with a reasonably modern browser.
 * Characters can be easily added to and removed from the current combat.
 * Automatically determines turn order.
 * Tracks the current player and current segment.
+* Tracks the END/STUN/BODY for NPCs.
+* Automatically performs post-12 recoveries for NPCs.
+* Supports character import from HERO Designer hdc files.
 
 # Docs
 
