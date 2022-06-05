@@ -61,9 +61,8 @@ $(function() {
                 var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
                 var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
                 champions.putCharacter({
-                    active: 1,
                     body: body,
-                    campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME') || 'N/A',
+                    campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME'),
                     dex: dex,
                     end: end,
                     maxBody: body,
@@ -71,15 +70,13 @@ $(function() {
                     maxRec: rec,
                     maxStun: stun,
                     name: getXml(xml, 'CHARACTER_INFO', 'CHARACTER_NAME'),
-                    pc: 0,
                     speed: speed,
                     stun: stun,
                 });
             } else {
                 JSON.parse(event.target.result).forEach(character => champions.putCharacter(character));
             }
-            renderCampaignList();
-            renderCombatTable();
+            refresh(true);
         }
     });
 
@@ -102,14 +99,15 @@ $(function() {
                 $('#editCharacterName').val(character.name);
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
+                $('#editCharacterReflexes').val(character.reflexes);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
-                $('#editCharacterMaxEnd').val(character.maxEnd || 0);
-                $('#editCharacterMaxStun').val(character.maxStun || 0);
-                $('#editCharacterMaxBody').val(character.maxBody || 0);
-                $('#editCharacterMaxRec').val(character.maxRec || 0);
-                $('#editCharacterEnd').val(character.end || 0);
-                $('#editCharacterStun').val(character.stun || 0);
-                $('#editCharacterBody').val(character.body || 0);
+                $('#editCharacterMaxEnd').val(character.maxEnd);
+                $('#editCharacterMaxStun').val(character.maxStun);
+                $('#editCharacterMaxBody').val(character.maxBody);
+                $('#editCharacterMaxRec').val(character.maxRec);
+                $('#editCharacterEnd').val(character.end);
+                $('#editCharacterStun').val(character.stun);
+                $('#editCharacterBody').val(character.body);
                 if (character.pc) {
                     $('#editCharacterStats').hide();
                 } else {
@@ -187,8 +185,7 @@ $(function() {
             .then(() => {
                 $('#editCharacterModal').modal('hide');
                 $('#editCharacterForm').trigger('reset');
-                renderCampaignList();
-                $('#combatTable>tr[data-id="' + characterId + '"]').remove();
+                refresh();
             });
     });
 
@@ -206,8 +203,7 @@ $(function() {
                     .then(() => {
                         $('#editCharacterModal').modal('hide');
                         $('#editCharacterForm').trigger('reset');
-                        renderCampaignList();
-                        renderCombatTable();
+                        refresh();
                     })
             });
     });
@@ -222,6 +218,7 @@ $(function() {
                 name: $('#editCharacterName').val(),
                 speed: parseInt($('#editCharacterSpeed').val()),
                 dex: parseInt($('#editCharacterDex').val()),
+                reflexes: parseInt($('#editCharacterReflexes').val()),
                 pc: $('#editCharacterPc:checked').val() ? 1 : 0,
                 maxEnd: parseInt($('#editCharacterMaxEnd').val()),
                 maxStun: parseInt($('#editCharacterMaxStun').val()),
@@ -234,8 +231,7 @@ $(function() {
         ).then(() => {
             $('#editCharacterModal').modal('hide');
             $('#editCharacterForm').trigger('reset');
-            renderCampaignList();
-            renderCombatTable();
+            refresh(true);
         })
     });
 
@@ -263,19 +259,12 @@ $(function() {
             name: $('#newCharacterName').val(),
             speed: parseInt($('#newCharacterSpeed').val()),
             dex: parseInt($('#newCharacterDex').val()),
-            active: 0,
-            pc: $('#newCharacterPc:checked').val() ? 1 : 0,
-            maxEnd: 0,
-            maxStun: 0,
-            maxBody: 0,
-            maxRec: 0,
-            end: 0,
-            stun: 0,
-            body: 0
+            reflexes: parseInt($('#newCharacterReflexes').val()),
+            pc: $('#newCharacterPc:checked').val() ? 1 : 0
         }).then(() => {
             $('#newCharacterModal').modal('hide');
             $('#newCharacterForm').trigger('reset');
-            renderCampaignList();
+            refresh(true);
         })
     });
 
@@ -378,10 +367,18 @@ $(function() {
                         body: character.body
                     }
                 );
-                $('#editCharacterEnd').val(character.end || 0);
-                $('#editCharacterStun').val(character.stun || 0);
-                $('#editCharacterBody').val(character.body || 0);
+                $('#editCharacterEnd').val(character.end);
+                $('#editCharacterStun').val(character.stun);
+                $('#editCharacterBody').val(character.body);
             });
+    }
+
+    function refresh(migrate = false) {
+        if (migrate === true) {
+            champions.migrate();
+        }
+        renderCampaignList()
+        renderCombatTable();
     }
 
     // Render the campaign list.
@@ -433,6 +430,7 @@ $(function() {
                         stun: xOfY(character, 'stun', 'maxStun'),
                         body: xOfY(character, 'body', 'maxBody'),
                         dex: character.dex,
+                        initiative: character.dex + character.reflexes,
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
                         pcTitle: character.pc ? 'PC' : 'NPC',
                         knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
@@ -513,7 +511,6 @@ $(function() {
         return '<span class="text-info">' + character[x] + '</span> (' + character[y] + ')';
     }
 
-    renderCampaignList()
-    renderCombatTable();
+    refresh(true);
 
 });

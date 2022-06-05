@@ -80,6 +80,41 @@ var champions = (function () {
             .then(character => character.active);
     }
 
+    // If fields have been added to (or removed from) the character object since
+    // our last update, we'll need to ensure that the existing records have (or
+    // don't have) values for them.
+    function migrate() {
+        db.characters
+            .toCollection()
+            .modify(character => {
+                const fields = {
+                    active: 0,
+                    body: 0,
+                    campaign: 'n/a',
+                    dex: 0,
+                    end: 0,
+                    id: 0,
+                    maxBody: 0,
+                    maxEnd: 0,
+                    maxRec: 0,
+                    maxStun: 0,
+                    name: 'n/a',
+                    pc: 0,
+                    reflexes: 0,
+                    speed: 0,
+                    stun: 0,
+                };
+                for (const field in character) {
+                    if (fields[field] === undefined) {
+                        delete character[field];
+                    }
+                }
+                for (const field in fields) {
+                    character[field] = character[field] ?? fields[field];
+                }
+            });
+    }
+
     function putCharacter(character) {
         return db.characters
             .put(character);
@@ -117,7 +152,7 @@ var champions = (function () {
     }
 
     function sortByDex(a, b) {
-        if (a.dex === b.dex) {
+        if (a.dex + a.reflexes === b.dex + b.reflexes) {
             if (a.speed === b.speed) {
                 if (a.pc === b.pc) {
                     return sortByName(a, b);
@@ -126,7 +161,7 @@ var champions = (function () {
             }
             return b.speed - a.speed;
         }
-        return b.dex - a.dex;
+        return (b.dex + b.reflexes) - (a.dex + a.reflexes);
     }
 
     function sortByName(a, b) {
@@ -165,6 +200,7 @@ var champions = (function () {
         getCurrentSegment: getCurrentSegment,
         getDuplicateName: getDuplicateName,
         isCharacterActive: isCharacterActive,
+        migrate: migrate,
         putCharacter: putCharacter,
         reset: reset,
         setCurrentCampaign: setCurrentCampaign,
