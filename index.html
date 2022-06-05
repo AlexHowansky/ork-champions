@@ -42,6 +42,7 @@
                 <td>{{body}}</td>
                 <td>{{speed}}</td>
                 <td>{{dex}}</td>
+                <td>{{initiative}}</td>
         </script>
         <script id="combatTableCellActiveTemplate" type="text/template">
             <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}}"></i></td>
@@ -93,6 +94,7 @@
                             <th>Body</th>
                             <th>Speed</th>
                             <th>Dex</th>
+                            <th>Initiative</th>
                             <th>1</th>
                             <th>2</th>
                             <th>3</th>
@@ -153,6 +155,10 @@
                                 <div class="form-group col">
                                     <label for="newCharacterDex">Dex</label>
                                     <input type="text" class="form-control" id="newCharacterDex" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="newCharacterReflexes">Reflexes</label>
+                                    <input type="text" class="form-control" id="newCharacterReflexes" required>
                                 </div>
                                 <div class="form-group col mt-4">
                                     <div class="custom-control custom-radio">
@@ -219,6 +225,10 @@
                                 <div class="form-group col">
                                     <label for="editCharacterDex">Dex</label>
                                     <input type="text" class="form-control" id="editCharacterDex" required>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="editCharacterReflexes">Reflexes</label>
+                                    <input type="text" class="form-control" id="editCharacterReflexes" required>
                                 </div>
                                 <div class="form-group col">
                                     <div class="custom-control custom-radio">
