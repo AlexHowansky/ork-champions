@@ -60,6 +60,13 @@ $(function() {
                 var speed = Math.floor(1 + (dex / 10) + getXml(xml, 'SPD'));
                 var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
                 var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
+                var reflexes = 0;
+                for (const talent of xml.getElementsByTagName('TALENT')) {
+                    if (talent.getAttribute('XMLID') === 'LIGHTNING_REFLEXES_ALL') {
+                        reflexes = Number(talent.getAttribute('LEVELS'));
+                        break;
+                    }
+                }
                 champions.putCharacter({
                     body: body,
                     campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME'),
@@ -70,6 +77,7 @@ $(function() {
                     maxRec: rec,
                     maxStun: stun,
                     name: getXml(xml, 'CHARACTER_INFO', 'CHARACTER_NAME'),
+                    reflexes: reflexes,
                     speed: speed,
                     stun: stun,
                 });
