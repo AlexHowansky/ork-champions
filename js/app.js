@@ -476,7 +476,7 @@ $(function() {
         $('#combatTable>tr>td').removeClass('bg-warning');
         if (currentSegment > 0) {
             $($('#combatTable>tr:nth-child(' + (currentCharacter + 1) + ')')
-                .find('td')[currentSegment + 5])
+                .find('td')[currentSegment + 6])
                 .addClass('bg-warning');
         }
     }
