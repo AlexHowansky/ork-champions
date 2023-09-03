@@ -224,17 +224,17 @@ $(function() {
             {
                 campaign: $('#editCharacterCampaign').val(),
                 name: $('#editCharacterName').val(),
-                speed: parseInt($('#editCharacterSpeed').val()),
-                dex: parseInt($('#editCharacterDex').val()),
-                reflexes: parseInt($('#editCharacterReflexes').val()),
+                speed: parseInt($('#editCharacterSpeed').val()) || 0,
+                dex: parseInt($('#editCharacterDex').val()) || 0,
+                reflexes: parseInt($('#editCharacterReflexes').val()) || 0,
                 pc: $('#editCharacterPc:checked').val() ? 1 : 0,
-                maxEnd: parseInt($('#editCharacterMaxEnd').val()),
-                maxStun: parseInt($('#editCharacterMaxStun').val()),
-                maxBody: parseInt($('#editCharacterMaxBody').val()),
-                maxRec: parseInt($('#editCharacterMaxRec').val()),
-                end: parseInt($('#editCharacterEnd').val()),
-                stun: parseInt($('#editCharacterStun').val()),
-                body: parseInt($('#editCharacterBody').val())
+                maxEnd: parseInt($('#editCharacterMaxEnd').val()) || 0,
+                maxStun: parseInt($('#editCharacterMaxStun').val()) || 0,
+                maxBody: parseInt($('#editCharacterMaxBody').val()) || 0,
+                maxRec: parseInt($('#editCharacterMaxRec').val()) || 0,
+                end: parseInt($('#editCharacterEnd').val()) || 0,
+                stun: parseInt($('#editCharacterStun').val()) || 0,
+                body: parseInt($('#editCharacterBody').val()) || 0
             }
         ).then(() => {
             $('#editCharacterModal').modal('hide');
@@ -265,9 +265,9 @@ $(function() {
         champions.putCharacter({
             campaign: $('#newCharacterCampaign').val(),
             name: $('#newCharacterName').val(),
-            speed: parseInt($('#newCharacterSpeed').val()),
-            dex: parseInt($('#newCharacterDex').val()),
-            reflexes: parseInt($('#newCharacterReflexes').val()),
+            speed: parseInt($('#newCharacterSpeed').val()) || 0,
+            dex: parseInt($('#newCharacterDex').val()) || 0,
+            reflexes: parseInt($('#newCharacterReflexes').val()) || 0,
             pc: $('#newCharacterPc:checked').val() ? 1 : 0
         }).then(() => {
             $('#newCharacterModal').modal('hide');
