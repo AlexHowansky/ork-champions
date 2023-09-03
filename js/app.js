@@ -171,6 +171,11 @@ $(function() {
         findNext();
     });
 
+    // Toggle the light/dark mode.
+    $('#modeButton').click(function() {
+        $('html').attr('data-bs-theme', $('html').attr('data-bs-theme') == 'dark' ? 'light' : 'dark') ;
+    });
+
     // Clicking directly on a combat table cell sets the current phase to that point.
     $('#combatTable').on('click', 'tr>td[data-segment]', function() {
         champions.setCurrentCharacter($(this).data('character')).then(
