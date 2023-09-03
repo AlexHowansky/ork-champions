@@ -1,3 +1,7 @@
+* Should each campaign have its own battle map?
+* Skip characters if they're KO'ed.
+* Add the ability to add notes or icons to each character, like to notate being flashed.
+* Handle unconsciosness more correctly.
 * Take negative stun into account. (Recover until positive then stunned 1 phase.)
 * Make columns in table user-selectable.
 * Somehow determine/indicate when a character is stunned/unstunned.
@@ -7,7 +11,6 @@
 * Inactivate duplicate button if there are unsaved edits.
 * Bug: New character doesn't show end/stun/body for NPC.
 * Export should export combat sheet as well as characters?
-* Gracefully detect duplicate character names.
 * Add form validation.
 * Add characters to battle map by dragging?
 * Combine setCharacter/setSegment into one function?

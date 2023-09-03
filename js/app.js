@@ -245,7 +245,9 @@ $(function() {
             $('#editCharacterModal').modal('hide');
             $('#editCharacterForm').trigger('reset');
             refresh(true);
-        })
+        }).catch('Error', e => {
+            alert('ERROR: New name already exists.');
+        });
     });
 
     // If we have a PC, hide the extra stats. (PCs track their own.)
@@ -278,7 +280,9 @@ $(function() {
             $('#newCharacterModal').modal('hide');
             $('#newCharacterForm').trigger('reset');
             refresh(true);
-        })
+        }).catch('ConstraintError', e => {
+            alert('ERROR: Name already exists.');
+        });
     });
 
     // Dismiss the post 12 recovery modal.
