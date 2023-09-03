@@ -3,24 +3,24 @@ $(function() {
     const config = {
 
         // Used to indicate which characters are active in the battle table.
-        checkedIcon: 'fas fa-check-square text-success',
-        uncheckedIcon: 'fas fa-square text-dark',
+        checkedIcon: 'fa-solid fa-check-square text-success',
+        uncheckedIcon: 'fa-solid fa-square text-dark',
 
         // Used to indicate the difference between a PC and an NPC.
-        pcIcon: 'fas fa-user text-primary',
-        npcIcon: 'fas fa-robot text-secondary',
+        pcIcon: 'fa-solid fa-user text-primary',
+        npcIcon: 'fa-solid fa-robot text-secondary',
 
         // Used to indicate which segments a character acts on.
-        activeIcon: 'fas fa-check text-success',
-        inactiveIcon: 'fas fa-times text-danger',
+        activeIcon: 'fa-solid fa-check text-success',
+        inactiveIcon: 'fa-solid fa-xmark text-danger',
 
         // Used to indicate the currently open accordion segment.
-        accordionClosedIcon: 'fas fa-chevron-right',
-        accordionOpenIcon: 'fas fa-chevron-down',
+        accordionClosedIcon: 'fa-solid fa-chevron-right',
+        accordionOpenIcon: 'fa-solid fa-chevron-down',
 
         // Action/status icons used in the battle table.
-        knockedOutIcon: '<i class="fas fa-dizzy text-danger" title="Knocked Out"></i>',
-        recoveryIcon: '<i class="fas fa-plus-square text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
+        knockedOutIcon: '<i class="fa-solid fa-face-dizzy text-danger" title="Knocked Out"></i>',
+        recoveryIcon: '<i class="fa-solid fa-square-plus text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
 
     }
 
@@ -31,7 +31,7 @@ $(function() {
     });
 
     // Add a character to the combat table.
-    $('#campaignList').on('click', 'div.card>div.collapse>ul>li>i.fas[data-id]', function() {
+    $('#campaignList').on('click', 'div.card>div.collapse>ul>li>i.fa-solid[data-id]', function() {
         champions.toggleCharacterActive($(this).data('id'))
             .then(active => $(this).removeClass().addClass(getActiveIcon(active)))
             .then(recover($(this).data('id'), true))
@@ -152,7 +152,7 @@ $(function() {
     $('#clearButton').click(function() {
         champions.deactivateAllCharacters(
             function(character) {
-                $('#campaignList>div.card>div.collapse>ul>li>i.fas[data-id="' + character.id + '"]')
+                $('#campaignList>div.card>div.collapse>ul>li>i.fa-solid[data-id="' + character.id + '"]')
                     .removeClass()
                     .addClass(getActiveIcon(0));
                 $('#combatTable>tr[data-id="' + character.id + '"]').remove();
@@ -497,7 +497,7 @@ $(function() {
     // Toggle an accordion.
     function toggleAccordion(accordionId, cardHeaderId) {
         $('#' + accordionId + '>div.card>div.card-header[data-id]').each(function() {
-            var icon = $(this).find('i.fas');
+            var icon = $(this).find('i.fa-solid');
             var collapse = $(this).parent().find('div.collapse');
             if ($(this).data('id') === cardHeaderId && !collapse.hasClass('show')) {
                 collapse.collapse('show');

@@ -20,9 +20,9 @@ div.row>div {
 
 div.accordion>div.card>div.card-header, /* Campaign accordion header toggles. */
 *[data-cid], /* Anything with a data-cid attribute opens the character modal. */
-#campaignList i.fas[data-id], /* Campaign accordion selection checkboxes. */
+#campaignList i.fa-solid[data-id], /* Campaign accordion selection checkboxes. */
 #combatTable>tr>td[data-segment], /* Specific segment selectors. */
-#combatTable>tr>td i.fas[data-recovery] /* Take a recovery icon. */
+#combatTable>tr>td i.fa-solid[data-recovery] /* Take a recovery icon. */
 {
     cursor: pointer;
 }
