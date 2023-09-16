@@ -132,8 +132,9 @@ $(function() {
             .then(character => {
                 if (!character.pc) {
                     character.end = Math.min(character.end + character.maxRec, character.maxEnd);
-                    champions.updateCharacter($(this).data('recovery'), {end: character.end});
-                    renderCombatTable();
+                    character.stun = Math.min(character.stun + character.maxRec, character.maxStun);
+                    champions.updateCharacter($(this).data('recovery'), {end: character.end, stun: character.stun})
+                        .then(renderCombatTable());
                 }
             })
     });
