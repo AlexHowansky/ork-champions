@@ -36,6 +36,7 @@
                 <td class="text-start">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
                     <span data-cid="{{characterId}}">{{name}}</span>
+                    {{flashedIcon}}
                 </td>
                 <td>{{end}} {{recoveryIcon}}</td>
                 <td>{{stun}} {{knockedOutIcon}}</td>
@@ -255,6 +256,15 @@
                                 </div>
                             </div>
                             <div id="editCharacterStats">
+                                <div class="row mb-3 align-items-end">
+                                    <div class="form-group col-3">
+                                        <label for="editCharacterFlashed" class="form-label">
+                                            Flashed
+                                            <i class="fa-solid fa-circle-question text-secondary" title="The remaining number of segments that the character will be flashed."></i>
+                                        </label>
+                                        <input type="text" class="form-control" id="editCharacterFlashed" required>
+                                    </div>
+                                </div>
                                 <div class="row mb-3 align-items-end">
                                     <div class="form-group col-1 p-2">Max</div>
                                     <div class="form-group col-2 text-center">
