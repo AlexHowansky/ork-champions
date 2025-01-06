@@ -10,10 +10,6 @@ table {
     text-align: center;
 }
 
-div.row {
-    width: 100%;
-}
-
 div.row>div {
     padding-right: 0;
 }
