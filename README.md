@@ -19,6 +19,7 @@ and hit `public/index.html` with a reasonably modern browser.
 * Automatically determines turn order.
 * Tracks the current player and current segment.
 * Tracks the END/STUN/BODY for NPCs.
+* Tracks flash status for NPCs.
 * Automatically performs post-12 recoveries for NPCs.
 * Supports character import from HERO Designer hdc files.
 
