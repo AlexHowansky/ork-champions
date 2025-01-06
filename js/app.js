@@ -19,6 +19,7 @@ $(function() {
         accordionOpenIcon: 'fa-solid fa-chevron-down',
 
         // Action/status icons used in the battle table.
+        flashedIcon: '<i class="fa-solid fa-eye-low-vision text-danger" title="Flashed {{flashed}}"></i>',
         knockedOutIcon: '<i class="fa-solid fa-face-dizzy text-danger" title="Knocked Out"></i>',
         recoveryIcon: '<i class="fa-solid fa-square-plus text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
 
@@ -60,6 +61,7 @@ $(function() {
                 var speed = Math.floor(1 + (dex / 10) + getXml(xml, 'SPD'));
                 var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
                 var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
+                var flashed = 0;
                 var reflexes = 0;
                 for (const talent of xml.getElementsByTagName('TALENT')) {
                     if (talent.getAttribute('XMLID') === 'LIGHTNING_REFLEXES_ALL') {
@@ -72,6 +74,7 @@ $(function() {
                     campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME'),
                     dex: dex,
                     end: end,
+                    flashed: flashed,
                     maxBody: body,
                     maxEnd: end,
                     maxRec: rec,
@@ -107,6 +110,7 @@ $(function() {
                 $('#editCharacterName').val(character.name);
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
+                $('#editCharacterFlashed').val(character.flashed);
                 $('#editCharacterReflexes').val(character.reflexes);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
                 $('#editCharacterMaxEnd').val(character.maxEnd);
@@ -232,6 +236,7 @@ $(function() {
                 name: $('#editCharacterName').val(),
                 speed: parseInt($('#editCharacterSpeed').val()) || 0,
                 dex: parseInt($('#editCharacterDex').val()) || 0,
+                flashed: parseInt($('#editCharacterFlashed').val()) || 0,
                 reflexes: parseInt($('#editCharacterReflexes').val()) || 0,
                 pc: $('#editCharacterPc:checked').val() ? 1 : 0,
                 maxEnd: parseInt($('#editCharacterMaxEnd').val()) || 0,
@@ -297,32 +302,45 @@ $(function() {
     }
 
     // Determine the next player's phase.
-    function findNext() {
-        champions.getCurrentCharacter().then(currentCharacter => {
-            champions.getCurrentSegment().then(currentSegment => {
-                champions.getActiveCharacters().then(characters => {
-                    if (currentSegment === null || currentCharacter === null) {
-                        currentSegment = 12;
-                        currentCharacter = -1;
-                    }
-                    do {
-                        if (++currentCharacter >= characters.length) {
-                            currentCharacter = 0;
-                            if (++currentSegment > 12) {
-                                post12();
-                                currentSegment = 1;
-                                $('#post12').modal('show');
+    async function findNext() {
+        let currentCharacter = await champions.getCurrentCharacter();
+        let currentSegment = await champions.getCurrentSegment();
+        let characters = await champions.getActiveCharacters();
+        if (currentSegment === null || currentCharacter === null) {
+            currentSegment = 12;
+            currentCharacter = -1;
+        }
+        let segments = 0;
+        do {
+            if (++currentCharacter >= characters.length) {
+                currentCharacter = 0;
+                ++segments;
+                if (++currentSegment > 12) {
+                    await post12();
+                    currentSegment = 1;
+                }
+            }
+        } while (speedActsInSegment(characters[currentCharacter].speed, currentSegment) === false);
+        await champions.setCurrentCharacter(currentCharacter);
+        await champions.setCurrentSegment(currentSegment);
+        await flashDecrement(segments);
+        renderCombatTable();
+    }
+
+    // Decrement each flashed character's remaining flashed segments.
+    function flashDecrement(segments) {
+        return champions.getActiveCharacters()
+            .then(characters => {
+                characters.forEach(character => {
+                    if (!character.pc && character.flashed > 0) {
+                        champions.updateCharacter(
+                            character.id, {
+                                flashed: Math.max(character.flashed - segments, 0)
                             }
-                        }
-                    } while (speedActsInSegment(characters[currentCharacter].speed, currentSegment) === false);
-                    champions.setCurrentCharacter(currentCharacter).then(
-                        champions.setCurrentSegment(currentSegment).then(
-                            renderCombatTableHighlight(currentCharacter, currentSegment)
                         )
-                    );
-                });
+                    }
+                })
             });
-        });
     }
 
     // Get the icon for a particular active status.
@@ -355,14 +373,15 @@ $(function() {
 
     // Take a recovery for all active and conscious characters.
     function post12() {
-        champions.getActiveCharacters()
+        return champions.getActiveCharacters()
             .then(characters => {
                 characters.forEach(character => {
                     if (!character.pc && character.stun > 0) {
                         recover(character.id);
                     }
                 })
-            });
+            })
+            .then($('#post12').modal('show'));
     }
 
     // Take a recovery or rest.
@@ -451,6 +470,8 @@ $(function() {
                         initiative: character.dex + character.reflexes,
                         pcIcon: character.pc ? config.pcIcon : config.npcIcon,
                         pcTitle: character.pc ? 'PC' : 'NPC',
+                        flashed: character.pc ? '' : character.flashed,
+                        flashedIcon: character.pc ? '' : (character.flashed > 0 ? config.flashedIcon : ''),
                         knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
                         recoveryIcon: character.pc ? '' : (character.end < character.maxEnd ? config.recoveryIcon : '')
                     });

@@ -1,6 +1,7 @@
+* Add arbitrary set of status tags, like entangled, etc.
+* On import, if GM == Player then set NPC else PC.
 * Should each campaign have its own battle map?
 * Skip characters if they're KO'ed.
-* Add the ability to add notes or icons to each character, like to notate being flashed.
 * Handle unconsciosness more correctly.
 * Take negative stun into account. (Recover until positive then stunned 1 phase.)
 * Make columns in table user-selectable.

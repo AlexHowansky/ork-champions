@@ -93,6 +93,7 @@ var champions = (function () {
                     campaign: 'n/a',
                     dex: 0,
                     end: 0,
+                    flashed: 0,
                     id: 0,
                     maxBody: 0,
                     maxEnd: 0,
