@@ -445,9 +445,10 @@ $(function() {
                         pcTitle: characters[i].pc ? 'PC' : 'NPC'
                     });
                 }
-                html += template('campaignListFooterTemplate');
-                $('#campaignList>div.card').remove();
-                $('#campaignList').append(html);
+                if (html) {
+                    html += template('campaignListFooterTemplate');
+                    $('#campaignList').html(html);
+                }
             })
             .then(() => champions.getCurrentCampaign())
             .then(campaign => toggleAccordion('campaignList', campaign));
