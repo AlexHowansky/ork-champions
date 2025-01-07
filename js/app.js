@@ -94,8 +94,14 @@ $(function() {
         champions.getCharacters().then(characters => {
             characters.forEach(character => delete character.id);
             let a = document.createElement('a');
-            a.setAttribute('href', 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(characters)));
-            a.setAttribute('download', 'championsCharacters_' + (new Date()).toLocaleDateString('en-US').split('/').join('-') + '.json');
+            a.setAttribute(
+                'href',
+                'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(characters))
+            );
+            a.setAttribute(
+                'download',
+                'championsCharacters_' + (new Date()).toLocaleDateString('en-US').split('/').join('-') + '.json'
+            );
             a.click();
         });
     });
@@ -109,7 +115,6 @@ $(function() {
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $('#editCharacterFlashed').val(character.flashed);
-                $('#editCharacterStatus').selectize()[0].selectize.setValue(character.status);
                 $('#editCharacterReflexes').val(character.reflexes);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
                 $('#editCharacterMaxEnd').val(character.maxEnd);
@@ -126,6 +131,11 @@ $(function() {
                 }
                 $('#editCharacterFormDeleteButton').data('id', character.id);
                 $('#editCharacterModal').modal('show');
+                let statusSelector = $('#editCharacterStatus').selectize()[0].selectize;
+                // This is needed when the `create: true` option is set, to create the selectors that aren't predefined.
+                // We'll just attempt to create everything here, since already-existing selectors will be skipped anyway.
+                character.status.forEach(status => statusSelector.addOption({value: status, text: status}));
+                statusSelector.setValue(character.status);
             });
     });
 
@@ -308,19 +318,20 @@ $(function() {
             {value: 'fa-solid fa-face-flushed', text: 'stunned'},
             {value: 'fa-solid fa-hands-holding-circle', text: 'suppressed'}
         ],
+        persist: false,
         plugins: ['remove_button'],
         render: {
             item: function (item, escape) {
                 return
-                    '<div class="item">&nbsp;' +
-                    '<i class="' + escape(item.value) + '"></i>&nbsp;' +
+                    '<div class="item">' +
+                    (item.text == item.value ? '' : ('<i class="ps-0 pe-1 ' + escape(item.value) + '"></i>')) +
                     escape(item.text) +
                     '</div>';
             },
             option: function (item, escape) {
                 return
-                    '<div>&nbsp;' +
-                    '<i class="' + escape(item.value) + '"></i>&nbsp;' +
+                    '<div>' +
+                    (item.text == item.value ? '' : ('<i class="ps-1 pe-1 ' + escape(item.value) + '"></i>')) +
                     escape(item.text) +
                     '</div>';
             }
