@@ -23,6 +23,16 @@ $(function() {
         knockedOutIcon: '<i class="fa-solid fa-face-dizzy text-danger" title="Knocked Out"></i>',
         recoveryIcon: '<i class="fa-solid fa-square-plus text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
 
+        // Statuses.
+        statuses: [
+            {name: 'dead', icon: 'fa-solid fa-skull'},
+            {name: 'drained', icon: 'fa-solid fa-faucet-drip'},
+            {name: 'prone', icon: 'fa-solid fa-person-falling'},
+            {name: 'sleeping', icon: 'fa-solid fa-bed'},
+            {name: 'stunned', icon: 'fa-solid fa-face-flushed'},
+            {name: 'suppressed', icon: 'fa-solid fa-hands-holding-circle'},
+        ],
+
     }
 
     // Open/close the selected accordion segment.
@@ -131,10 +141,17 @@ $(function() {
                 }
                 $('#editCharacterFormDeleteButton').data('id', character.id);
                 $('#editCharacterModal').modal('show');
+
+                // Since we have `create: true`, we have to reset the selectable options on each
+                // render, so we'll first remove any existing options, then add the known options
+                // from the config, then add the custom options from the character record.
                 let statusSelector = $('#editCharacterStatus').selectize()[0].selectize;
-                // This is needed when the `create: true` option is set, to create the selectors that aren't predefined.
-                // We'll just attempt to create everything here, since already-existing selectors will be skipped anyway.
-                character.status.forEach(status => statusSelector.addOption({value: status, text: status}));
+                statusSelector.clear();
+                statusSelector.clearOptions();
+                config.statuses.forEach(status => statusSelector.addOption(status));
+                character.status.filter(status => !isCustomStatus(status)).forEach(
+                    status => statusSelector.addOption({name: status})
+                );
                 statusSelector.setValue(character.status);
             });
     });
@@ -310,32 +327,25 @@ $(function() {
     $("#editCharacterStatus").selectize({
         create: true,
         createOnBlur: true,
-        options: [
-            {value: 'fa-solid fa-skull', text: 'dead'},
-            {value: 'fa-solid fa-faucet-drip', text: 'drained'},
-            {value: 'fa-solid fa-person-falling', text: 'prone'},
-            {value: 'fa-solid fa-bed', text: 'sleeping'},
-            {value: 'fa-solid fa-face-flushed', text: 'stunned'},
-            {value: 'fa-solid fa-hands-holding-circle', text: 'suppressed'}
-        ],
         persist: false,
         plugins: ['remove_button'],
         render: {
             item: function (item, escape) {
                 return
                     '<div class="item">' +
-                    (item.text == item.value ? '' : ('<i class="ps-0 pe-1 ' + escape(item.value) + '"></i>')) +
-                    escape(item.text) +
+                    (item.icon ? ('<i class="ps-0 pe-1 ' + escape(item.icon) + '"></i>') : '') +
+                    escape(item.name) +
                     '</div>';
             },
             option: function (item, escape) {
                 return
                     '<div>' +
-                    (item.text == item.value ? '' : ('<i class="ps-1 pe-1 ' + escape(item.value) + '"></i>')) +
-                    escape(item.text) +
+                    (item.icon ? ('<i class="ps-1 pe-1 ' + escape(item.icon) + '"></i>') : '') +
+                    escape(item.name) +
                     '</div>';
             }
-        }
+        },
+        valueField: 'name',
     });
 
     // We'll disable the battle table controls when there are no characters active.
@@ -411,6 +421,10 @@ $(function() {
     function getXml(xml, tag, attr = 'LEVELS') {
         var value = xml.getElementsByTagName(tag)[0].getAttribute(attr);
         return isNaN(value) ? value : Number(value);
+    }
+
+    function isCustomStatus(name) {
+        return config.statuses.map(status => status.name).includes(name);
     }
 
     // Take a recovery for all active and conscious characters.
