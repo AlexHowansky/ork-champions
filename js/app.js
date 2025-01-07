@@ -23,7 +23,7 @@ $(function() {
         accordionClosedIcon: 'fa-solid fa-chevron-right',
         accordionOpenIcon: 'fa-solid fa-chevron-down',
 
-        // Action/status icons used in the battle table.
+        // Icons used in the battle table.
         flashedIcon: '<i class="fa-solid fa-eye-low-vision text-danger" title="Flashed {{flashed}}"></i>',
         knockedOutIcon: '<i class="fa-solid fa-face-dizzy text-danger" title="Knocked Out"></i>',
         recoveryIcon: '<i class="fa-solid fa-square-plus text-danger" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
@@ -154,8 +154,8 @@ $(function() {
                 statusSelector.clear();
                 statusSelector.clearOptions();
                 config.statuses.forEach(status => statusSelector.addOption(status));
-                character.status.filter(status => !isCustomStatus(status)).forEach(
-                    status => statusSelector.addOption({name: status})
+                character.status.filter(name => !isCustomStatus(name)).forEach(
+                    name => statusSelector.addOption({name: name})
                 );
                 statusSelector.setValue(character.status);
             });
@@ -335,18 +335,18 @@ $(function() {
         persist: false,
         plugins: ['remove_button'],
         render: {
-            item: function (item, escape) {
+            item: function (status, escape) {
                 return
                     '<div class="item">' +
-                    (item.icon ? ('<i class="ps-0 pe-1 ' + escape(item.icon) + '"></i>') : '') +
-                    escape(item.name) +
+                    (status.icon ? ('<i class="ps-0 pe-1 ' + escape(status.icon) + '"></i>') : '') +
+                    escape(status.name) +
                     '</div>';
             },
-            option: function (item, escape) {
+            option: function (status, escape) {
                 return
                     '<div>' +
-                    (item.icon ? ('<i class="ps-1 pe-1 ' + escape(item.icon) + '"></i>') : '') +
-                    escape(item.name) +
+                    (status.icon ? ('<i class="ps-1 pe-1 ' + escape(status.icon) + '"></i>') : '') +
+                    escape(status.name) +
                     '</div>';
             }
         },
