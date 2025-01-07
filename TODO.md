@@ -1,4 +1,3 @@
-* Add arbitrary set of status tags, like entangled, etc.
 * On import, if GM == Player then set NPC else PC.
 * Should each campaign have its own battle map?
 * Skip characters if they're KO'ed.
