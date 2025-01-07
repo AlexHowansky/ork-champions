@@ -103,6 +103,7 @@ var champions = (function () {
                     pc: 0,
                     reflexes: 0,
                     speed: 0,
+                    status: [],
                     stun: 0,
                 };
                 for (const field in character) {

@@ -61,7 +61,6 @@ $(function() {
                 var speed = Math.floor(1 + (dex / 10) + getXml(xml, 'SPD'));
                 var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
                 var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
-                var flashed = 0;
                 var reflexes = 0;
                 for (const talent of xml.getElementsByTagName('TALENT')) {
                     if (talent.getAttribute('XMLID') === 'LIGHTNING_REFLEXES_ALL') {
@@ -74,7 +73,6 @@ $(function() {
                     campaign: getXml(xml, 'CHARACTER_INFO', 'CAMPAIGN_NAME'),
                     dex: dex,
                     end: end,
-                    flashed: flashed,
                     maxBody: body,
                     maxEnd: end,
                     maxRec: rec,
@@ -111,6 +109,7 @@ $(function() {
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $('#editCharacterFlashed').val(character.flashed);
+                $('#editCharacterStatus').selectize()[0].selectize.setValue(character.status);
                 $('#editCharacterReflexes').val(character.reflexes);
                 $(character.pc ? '#editCharacterPc' : '#editCharacterNpc').prop('checked', true);
                 $('#editCharacterMaxEnd').val(character.maxEnd);
@@ -244,6 +243,7 @@ $(function() {
                 maxBody: parseInt($('#editCharacterMaxBody').val()) || 0,
                 maxRec: parseInt($('#editCharacterMaxRec').val()) || 0,
                 end: parseInt($('#editCharacterEnd').val()) || 0,
+                status: $('#editCharacterStatus').val(),
                 stun: parseInt($('#editCharacterStun').val()) || 0,
                 body: parseInt($('#editCharacterBody').val()) || 0
             }
@@ -294,6 +294,37 @@ $(function() {
     // Dismiss the post 12 recovery modal.
     $('#post12OkButton').click(function(event) {
         renderCombatTable();
+    });
+
+    // Enable the status tags.
+    $("#editCharacterStatus").selectize({
+        create: true,
+        createOnBlur: true,
+        options: [
+            {value: 'fa-solid fa-skull', text: 'dead'},
+            {value: 'fa-solid fa-faucet-drip', text: 'drained'},
+            {value: 'fa-solid fa-person-falling', text: 'prone'},
+            {value: 'fa-solid fa-bed', text: 'sleeping'},
+            {value: 'fa-solid fa-face-flushed', text: 'stunned'},
+            {value: 'fa-solid fa-hands-holding-circle', text: 'suppressed'}
+        ],
+        plugins: ['remove_button'],
+        render: {
+            item: function (item, escape) {
+                return
+                    '<div class="item">&nbsp;' +
+                    '<i class="' + escape(item.value) + '"></i>&nbsp;' +
+                    escape(item.text) +
+                    '</div>';
+            },
+            option: function (item, escape) {
+                return
+                    '<div>&nbsp;' +
+                    '<i class="' + escape(item.value) + '"></i>&nbsp;' +
+                    escape(item.text) +
+                    '</div>';
+            }
+        }
     });
 
     // We'll disable the battle table controls when there are no characters active.
