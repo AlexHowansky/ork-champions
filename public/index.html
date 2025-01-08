@@ -34,12 +34,12 @@
         </script>
         <script id="combatTableRowHeaderTemplate" type="text/template">
             <tr data-id="{{characterId}}">
-                <td class="text-start">
+                <td class="text-start text-nowrap">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
                     <span data-cid="{{characterId}}">{{name}}</span> {{flashedIcon}} {{statusIcons}}
                 </td>
-                <td>{{end}} {{recoveryIcon}}</td>
-                <td>{{stun}} {{knockedOutIcon}}</td>
+                <td class="text-nowrap">{{end}} {{recoveryIcon}}</td>
+                <td class="text-nowrap">{{stun}} {{knockedOutIcon}}</td>
                 <td>{{body}}</td>
                 <td>{{speed}}</td>
                 <td>{{dex}}</td>
