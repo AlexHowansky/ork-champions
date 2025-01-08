@@ -36,8 +36,7 @@
             <tr data-id="{{characterId}}">
                 <td class="text-start">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
-                    <span data-cid="{{characterId}}">{{name}}</span>
-                    {{flashedIcon}}
+                    <span data-cid="{{characterId}}">{{name}}</span> {{flashedIcon}} {{statusIcons}}
                 </td>
                 <td>{{end}} {{recoveryIcon}}</td>
                 <td>{{stun}} {{knockedOutIcon}}</td>
@@ -54,6 +53,12 @@
         </script>
         <script id="combatTableRowFooterTemplate" type="text/template">
             </tr>
+        </script>
+        <script id="combatTableStatusIconTemplate" type="text/template">
+            <i class="{{icon}}" title="{{title}}"></i>
+        </script>
+        <script id="combatTableCustomStatusIconTemplate" type="text/template">
+            <span class="badge text-bg-primary px-1">{{name}}</span>
         </script>
         <nav class="navbar bg-body-tertiary p-0">
             <div class="offcanvas offcanvas-start" tabindex="-1" id="campaignNav">
