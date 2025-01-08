@@ -4,7 +4,6 @@
 * Handle unconsciosness more correctly.
 * Take negative stun into account. (Recover until positive then stunned 1 phase.)
 * Make columns in table user-selectable.
-* Somehow determine/indicate when a character is stunned/unstunned.
 * Allow edit of end/stun/body directly in table.
 * Character editor window: if you type a value into max box, and the associated cur is empty, then copy it down.
 * Allow color coding so we can match map halo colors?

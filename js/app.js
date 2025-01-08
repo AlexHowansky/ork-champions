@@ -30,12 +30,12 @@ $(function() {
 
         // Statuses.
         statuses: [
-            {name: 'dead', icon: 'fa-solid fa-skull'},
-            {name: 'drained', icon: 'fa-solid fa-faucet-drip'},
-            {name: 'prone', icon: 'fa-solid fa-person-falling'},
-            {name: 'sleeping', icon: 'fa-solid fa-bed'},
-            {name: 'stunned', icon: 'fa-solid fa-face-flushed'},
-            {name: 'suppressed', icon: 'fa-solid fa-hands-holding-circle'},
+            {name: 'Dead', icon: 'fa-solid fa-skull'},
+            {name: 'Drained', icon: 'fa-solid fa-faucet-drip'},
+            {name: 'Prone', icon: 'fa-solid fa-person-falling'},
+            {name: 'Sleeping', icon: 'fa-solid fa-bed'},
+            {name: 'Stunned', icon: 'fa-solid fa-face-flushed'},
+            {name: 'Suppressed', icon: 'fa-solid fa-hands-holding-circle'},
         ],
 
     }
@@ -154,7 +154,7 @@ $(function() {
                 statusSelector.clear();
                 statusSelector.clearOptions();
                 config.statuses.forEach(status => statusSelector.addOption(status));
-                character.status.filter(name => !isCustomStatus(name)).forEach(
+                character.status.filter(name => isCustomStatus(name)).forEach(
                     name => statusSelector.addOption({name: name})
                 );
                 statusSelector.setValue(character.status);
@@ -405,6 +405,14 @@ $(function() {
         return active ? config.checkedIcon : config.uncheckedIcon;
     }
 
+    // Get the icon/badge for a status.
+    function getIconForStatus(name) {
+        let status = config.statuses.find(status => status.name == name);
+        return status
+            ? template('combatTableStatusIconTemplate', {icon: status.icon, title: status.name})
+            : template('combatTableCustomStatusIconTemplate', {name: name});
+    }
+
     // Get the active segments for a particular speed.
     function getSegmentsForSpeed(speed) {
         return {
@@ -429,7 +437,7 @@ $(function() {
     }
 
     function isCustomStatus(name) {
-        return config.statuses.map(status => status.name).includes(name);
+        return !config.statuses.map(status => status.name).includes(name);
     }
 
     // Take a recovery for all active and conscious characters.
@@ -535,7 +543,8 @@ $(function() {
                         flashed: character.pc ? '' : character.flashed,
                         flashedIcon: character.pc ? '' : (character.flashed > 0 ? config.flashedIcon : ''),
                         knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
-                        recoveryIcon: character.pc ? '' : (character.end < character.maxEnd ? config.recoveryIcon : '')
+                        recoveryIcon: character.pc ? '' : (character.end < character.maxEnd ? config.recoveryIcon : ''),
+                        statusIcons: character.status.map(name => getIconForStatus(name)).join(' ')
                     });
                     for (var segment = 1; segment <= 12; segment++) {
                         if (speedActsInSegment(character.speed, segment)) {
