@@ -13,7 +13,7 @@
     <body>
         <script id="campaignListHeaderTemplate" type="text/template">
             <div class="card">
-                <div class="card-header bg-secondary" data-id="{{campaignId}}">
+                <div class="card-header bg-secondary pointer" data-id="{{campaignId}}">
                     <i class="{{accordionIcon}}"></i>
                     {{campaignName}}
                 </div>
@@ -22,7 +22,7 @@
         </script>
         <script id="campaignListCharacterTemplate" type="text/template">
                         <li class="list-group-item list-group-item-action">
-                            <i class="{{checkIcon}}" data-id="{{characterId}}"></i>
+                            <i class="{{checkIcon}} pointer" data-id="{{characterId}}"></i>
                             <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
                             <span data-cid="{{characterId}}">{{name}}</span>
                         </li>
@@ -46,7 +46,7 @@
                 <td>{{initiative}}</td>
         </script>
         <script id="combatTableCellActiveTemplate" type="text/template">
-            <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}}"></i></td>
+            <td data-character="{{characterIndex}}" data-segment="{{segment}}"><i class="{{icon}} pointer"></i></td>
         </script>
         <script id="combatTableCellInactiveTemplate" type="text/template">
             <td><i class="{{icon}}"></i></td>
@@ -327,7 +327,7 @@
                                     </div>
                                     <div class="form-group col-3">
                                         <button type="button" id="editCharacterRecoverButton" class="btn btn-warning" title="Take a recovery action.">
-                                            <i class="fa-solid fa-suitcase-medical"></i> Rec
+                                            <i class="fa-solid fa-kit-medical"></i> Rec
                                         </button>
                                     </div>
                                 </div>
