@@ -26,7 +26,7 @@ $(function() {
         // Icons used in the battle table.
         flashedIcon: '<i class="fa-solid fa-eye-low-vision text-danger" title="Flashed {{flashed}}"></i>',
         knockedOutIcon: '<i class="fa-solid fa-face-dizzy text-danger" title="Knocked Out"></i>',
-        recoveryIcon: '<i class="fa-solid fa-kit-medical text-danger pointer" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
+        recoveryIcon: '<i class="fa-solid fa-suitcase-medical text-danger pointer" title="Take A Recovery" data-recovery="{{characterId}}"></i>',
 
         // Statuses.
         statuses: [
