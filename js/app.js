@@ -30,12 +30,13 @@ $(function() {
 
         // Statuses.
         statuses: [
-            {name: 'Dead', icon: 'fa-solid fa-skull'},
-            {name: 'Drained', icon: 'fa-solid fa-faucet-drip'},
-            {name: 'Prone', icon: 'fa-solid fa-person-falling'},
-            {name: 'Sleeping', icon: 'fa-solid fa-bed'},
-            {name: 'Stunned', icon: 'fa-solid fa-face-flushed'},
-            {name: 'Suppressed', icon: 'fa-solid fa-hands-holding-circle'},
+            {name: 'Dead', icon: 'fa-solid fa-skull text-info'},
+            {name: 'Drained', icon: 'fa-solid fa-faucet-drip text-info'},
+            {name: 'Entangled', icon: 'fa-solid fa-handcuffs text-info'},
+            {name: 'Prone', icon: 'fa-solid fa-person-falling text-info'},
+            {name: 'Sleeping', icon: 'fa-solid fa-bed text-info'},
+            {name: 'Stunned', icon: 'fa-solid fa-face-flushed text-info'},
+            {name: 'Suppressed', icon: 'fa-solid fa-hands-holding-circle text-info'},
         ],
 
     }
