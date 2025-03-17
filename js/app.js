@@ -175,6 +175,36 @@ $(function() {
             })
     });
 
+    // Decrement END.
+    $('body').on('click', '*[data-end-dec]', function() {
+        fieldDecrement($(this).data('end-dec'), 'end');
+    });
+
+    // Increment END.
+    $('body').on('click', '*[data-end-inc]', function() {
+        fieldIncrement($(this).data('end-inc'), 'end');
+    });
+
+    // Decrement STUN.
+    $('body').on('click', '*[data-stun-dec]', function() {
+        fieldDecrement($(this).data('stun-dec'), 'stun');
+    });
+
+    // Increment STUN.
+    $('body').on('click', '*[data-stun-inc]', function() {
+        fieldIncrement($(this).data('stun-inc'), 'stun');
+    });
+
+    // Decrement BODY.
+    $('body').on('click', '*[data-body-dec]', function() {
+        fieldDecrement($(this).data('body-dec'), 'body');
+    });
+
+    // Increment BODY.
+    $('body').on('click', '*[data-body-inc]', function() {
+        fieldIncrement($(this).data('body-inc'), 'body');
+    });
+
     // Reset END, STUN, BODY to max.
     $('#editCharacterRestButton').click(function() {
         recover($('#editCharacterFormDeleteButton').data('id'), true);
@@ -359,6 +389,25 @@ $(function() {
         $('.battleTableControls>button').prop('disabled', !enable);
     }
 
+    // Decrement a characteristic field.
+    function fieldDecrement(cid, field) {
+        champions.getCharacter(cid).then(character => {
+            if (character[field] > 0) {
+                champions.updateCharacter(cid, {[field]: character[field] - 1}) .then(renderCombatTable());
+            }
+        });
+    }
+
+    // Increment a characteristic field.
+    function fieldIncrement(cid, field) {
+        champions.getCharacter(cid).then(character => {
+            let maxField = 'max' + field.charAt(0).toUpperCase() + field.slice(1);
+            if (character[field] < character[maxField]) {
+                champions.updateCharacter(cid, {[field]: character[field] + 1}) .then(renderCombatTable());
+            }
+        });
+    }
+
     // Determine the next player's phase.
     async function findNext() {
         let currentCharacter = await champions.getCurrentCharacter();
@@ -399,6 +448,18 @@ $(function() {
                     }
                 })
             });
+    }
+
+    function getAbortIcon(characerId) {
+        if (character.aborted) {
+            return '<i class="fa-solid fa-person-arrow-down-to-line text-danger float-end pt-1 pointer" title="Aborted"></i>';
+        }
+        /*
+        if () {
+            return '<i class="fa-solid fa-person-arrow-down-to-line text-secondary float-end pt-1 pointer" title="Pull Down"></i>';
+        }
+        */
+        return '';
     }
 
     // Get the icon for a particular active status.
@@ -531,6 +592,7 @@ $(function() {
             .then(characters => {
                 characters.forEach((character, index) => {
                     var row = template('combatTableRowHeaderTemplate', {
+                        abort: getAbortIcon(character.id),
                         characterId: character.id,
                         name: character.name,
                         speed: character.speed,

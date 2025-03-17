@@ -36,11 +36,24 @@
             <tr data-id="{{characterId}}">
                 <td class="text-start text-nowrap">
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
-                    <span data-cid="{{characterId}}">{{name}}</span> {{flashedIcon}} {{statusIcons}}
+                    <span data-cid="{{characterId}}">{{name}}</span> {{flashedIcon}} {{statusIcons}} {{abortIcon}}
+                    <i class="fa-solid fa-person-arrow-down-to-line text-secondary float-end pt-1 pointer" title="Pull Down"></i>
                 </td>
-                <td class="text-nowrap">{{end}} {{recoveryIcon}}</td>
-                <td class="text-nowrap">{{stun}} {{knockedOutIcon}}</td>
-                <td>{{body}}</td>
+                <td class="text-nowrap">
+                    <i class="fa-solid fa-square-minus text-secondary pointer" title="Take 1 Endurance" data-end-dec="{{characterId}}"></i>
+                    {{end}} {{recoveryIcon}}
+                    <i class="fa-solid fa-square-plus text-secondary pointer" title="Heal 1 Endurance" data-end-inc="{{characterId}}"></i>
+                </td>
+                <td class="text-nowrap">
+                    <i class="fa-solid fa-square-minus text-secondary pointer" title="Take 1 Stun" data-stun-dec="{{characterId}}"></i>
+                    {{stun}} {{knockedOutIcon}}
+                    <i class="fa-solid fa-square-plus text-secondary pointer" title="Heal 1 Stun" data-stun-inc="{{characterId}}"></i>
+                </td>
+                <td class="text-nowrap">
+                    <i class="fa-solid fa-square-minus text-secondary pointer" title="Take 1 Body" data-body-dec="{{characterId}}"></i>
+                    {{body}}
+                    <i class="fa-solid fa-square-plus text-secondary pointer" title="Heal 1 Body" data-body-inc="{{characterId}}"></i>
+                </td>
                 <td>{{speed}}</td>
                 <td>{{dex}}</td>
                 <td>{{initiative}}</td>

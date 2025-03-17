@@ -1,3 +1,4 @@
+* Somehow indicate when a player has pulled down and then skip their next turn.
 * On import, if GM == Player then set NPC else PC.
 * Should each campaign have its own battle map?
 * Skip characters if they're KO'ed.

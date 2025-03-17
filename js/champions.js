@@ -88,6 +88,7 @@ var champions = (function () {
             .toCollection()
             .modify(character => {
                 const fields = {
+                    aborted: 0,
                     active: 0,
                     body: 0,
                     campaign: 'n/a',
