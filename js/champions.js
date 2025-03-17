@@ -105,6 +105,7 @@ var champions = (function () {
                     speed: 0,
                     status: [],
                     stun: 0,
+                    url: '',
                 };
                 for (const field in character) {
                     if (fields[field] === undefined) {

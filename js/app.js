@@ -15,6 +15,9 @@ $(function() {
         pcIcon: 'fa-solid fa-user text-primary',
         npcIcon: 'fa-solid fa-robot text-secondary',
 
+        // Used to link out to the character sheet.
+        linkIcon: 'fa-solid fa-eye text-primary',
+
         // Used to indicate which segments a character acts on.
         activeIcon: 'fa-solid fa-check text-success',
         inactiveIcon: 'fa-solid fa-xmark text-danger',
@@ -128,6 +131,7 @@ $(function() {
             .then(character => {
                 $('#editCharacterCampaign').val(character.campaign);
                 $('#editCharacterName').val(character.name);
+                $('#editCharacterUrl').val(character.url);
                 $('#editCharacterSpeed').val(character.speed);
                 $('#editCharacterDex').val(character.dex);
                 $('#editCharacterFlashed').val(character.flashed);
@@ -266,6 +270,7 @@ $(function() {
             {
                 campaign: $('#editCharacterCampaign').val(),
                 name: $('#editCharacterName').val(),
+                url: $('#editCharacterUrl').val(),
                 speed: parseInt($('#editCharacterSpeed').val()) || 0,
                 dex: parseInt($('#editCharacterDex').val()) || 0,
                 flashed: parseInt($('#editCharacterFlashed').val()) || 0,
@@ -311,6 +316,7 @@ $(function() {
         champions.putCharacter({
             campaign: $('#newCharacterCampaign').val(),
             name: $('#newCharacterName').val(),
+            url: $('#newCharacterUrl').val(),
             speed: parseInt($('#newCharacterSpeed').val()) || 0,
             dex: parseInt($('#newCharacterDex').val()) || 0,
             reflexes: parseInt($('#newCharacterReflexes').val()) || 0,
@@ -533,6 +539,7 @@ $(function() {
                     var row = template('combatTableRowHeaderTemplate', {
                         characterId: character.id,
                         name: character.name,
+                        url: character.url ? character.url : '#',
                         speed: character.speed,
                         end: xOfY(character, 'end', 'maxEnd'),
                         stun: xOfY(character, 'stun', 'maxStun'),
@@ -545,7 +552,8 @@ $(function() {
                         flashedIcon: character.pc ? '' : (character.flashed > 0 ? config.flashedIcon : ''),
                         knockedOutIcon: character.pc ? '' : (character.stun > 0 ? '' : config.knockedOutIcon),
                         recoveryIcon: character.pc ? '' : (character.end < character.maxEnd ? config.recoveryIcon : ''),
-                        statusIcons: character.status.map(name => getIconForStatus(name)).join(' ')
+                        statusIcons: character.status.map(name => getIconForStatus(name)).join(' '),
+                        linkIcon: character.url ? config.linkIcon : ''
                     });
                     for (var segment = 1; segment <= 12; segment++) {
                         if (speedActsInSegment(character.speed, segment)) {

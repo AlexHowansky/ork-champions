@@ -35,6 +35,7 @@
         <script id="combatTableRowHeaderTemplate" type="text/template">
             <tr data-id="{{characterId}}">
                 <td class="text-start text-nowrap">
+                    <a href="{{url}}" target="_blank"><i class="{{linkIcon}}" title="Character Details"></i></a>
                     <i class="{{pcIcon}}" title="{{pcTitle}}" data-cid="{{characterId}}"></i>
                     <span data-cid="{{characterId}}">{{name}}</span> {{flashedIcon}} {{statusIcons}}
                 </td>
@@ -156,6 +157,12 @@
                             </div>
                             <div class="row w-100 mb-3">
                                 <div class="form-group col">
+                                    <label for="newCharacterUrl" class="form-label">URL</label>
+                                    <input type="text" class="form-control" id="newCharacterUrl">
+                                </div>
+                            </div>
+                            <div class="row w-100 mb-3">
+                                <div class="form-group col">
                                     <label for="newCharacterSpeed" class="form-label">Speed</label>
                                     <select class="form-select" id="newCharacterSpeed">
                                         <option value="1">1</option>
@@ -225,6 +232,12 @@
                                 <div class="form-group col">
                                     <label for="editCharacterName" class="form-label">Name</label>
                                     <input type="text" class="form-control" id="editCharacterName" required>
+                                </div>
+                            </div>
+                            <div class="row w-100 mb-3">
+                                <div class="form-group col">
+                                    <label for="editCharacterUrl" class="form-label">URL</label>
+                                    <input type="text" class="form-control" id="editCharacterUrl">
                                 </div>
                             </div>
                             <div class="row w-100 mb-3 align-items-end">
