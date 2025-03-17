@@ -516,9 +516,11 @@ $(function() {
                     html += template('campaignListCharacterTemplate', {
                         characterId: characters[i].id,
                         name: characters[i].name,
+                        url: characters[i].url,
                         checkIcon: characters[i].active ? config.checkedIcon : config.uncheckedIcon,
                         pcIcon: characters[i].pc ? config.pcIcon : config.npcIcon,
-                        pcTitle: characters[i].pc ? 'PC' : 'NPC'
+                        pcTitle: characters[i].pc ? 'PC' : 'NPC',
+                        linkIcon: characters[i].url ? config.linkIcon : ''
                     });
                 }
                 if (html) {
