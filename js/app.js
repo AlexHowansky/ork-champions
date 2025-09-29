@@ -632,6 +632,8 @@ $(function() {
         return '<span class="text-info">' + character[x] + '</span> (' + character[y] + ')';
     }
 
+    document.querySelector('html').setAttribute('data-bs-theme', window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
     refresh(true);
 
 });
