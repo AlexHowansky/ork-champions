@@ -1,6 +1,6 @@
 /*!
  * ork-champions
- * Copyright (c) 2020-2025 Alex Howansky
+ * Copyright (c) 2020-2026 Alex Howansky
  * Licensed under MIT (https://github.com/AlexHowansky/ork-champions/blob/master/LICENSE)
  */
 $(function() {
