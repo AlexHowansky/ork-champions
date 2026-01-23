@@ -72,14 +72,19 @@ $(function() {
             if (file.name.endsWith('.hdc')) {
                 var parser = new DOMParser();
                 var xml = parser.parseFromString(event.target.result, 'text/xml');
+
+                // There does not seem to be a definitive way to determine 5th ed vs 6th ed,
+                // so we'll make a guess based on the name of the character template file.
+                var ed6 = getXml(xml, 'CHARACTER', 'TEMPLATE').includes('6');
+
                 var body = 10 + getXml(xml, 'BODY');
                 var con = 10 + getXml(xml, 'CON');
                 var dex = 10 + getXml(xml, 'DEX');
                 var str = 10 + getXml(xml, 'STR');
-                var end = 2 * con + getXml(xml, 'END');
-                var speed = Math.floor(1 + (dex / 10) + getXml(xml, 'SPD'));
-                var stun = body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN');
-                var rec = Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC');
+                var end = ed6 ? (20 + getXml(xml, 'END')) : (2 * con + getXml(xml, 'END'));
+                var speed = ed6 ? (2 + getXml(xml, 'SPD')) : (Math.floor(1 + (dex / 10) + getXml(xml, 'SPD')));
+                var stun = ed6 ? (20 + getXml(xml, 'STUN')) : (body + Math.round(str / 2) + Math.round(con / 2) + getXml(xml, 'STUN'));
+                var rec = ed6 ? (4 + getXml(xml, 'REC')) : (Math.round(str / 5) + Math.round(con / 5) + getXml(xml, 'REC'))
                 var reflexes = 0;
                 for (const talent of xml.getElementsByTagName('TALENT')) {
                     if (talent.getAttribute('XMLID') === 'LIGHTNING_REFLEXES_ALL') {

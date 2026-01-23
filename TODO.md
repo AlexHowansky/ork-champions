@@ -1,5 +1,6 @@
-* On import, if GM == Player then set NPC else PC.
+* Add Load/Save buttons for current state of the battle map, in case you pause mid-battle and want to switch campaigns.
 * Should each campaign have its own battle map?
+* On import, if GM == Player then set NPC else PC.
 * Skip characters if they're KO'ed.
 * Handle unconsciosness more correctly.
 * Take negative stun into account. (Recover until positive then stunned 1 phase.)

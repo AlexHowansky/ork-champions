@@ -20,7 +20,7 @@ and hit `public/index.html` with a reasonably modern browser.
 * Tracks the END/STUN/BODY for NPCs.
 * Tracks flash status for NPCs.
 * Automatically performs post-12 recoveries for NPCs.
-* Supports character import from HERO Designer hdc files.
+* Supports character import from 5th and 6th edition HERO Designer hdc files.
 
 # Docs
 
