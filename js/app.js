@@ -207,9 +207,15 @@ $(function() {
             .then(enableBattleTableControls(false));
     });
 
-    // Start combat on segment 12.
-    $('#startButton').click(function() {
-        champions.reset().then(findNext());
+    // Rest everyone and restart combat on segmnet 12.
+    $('#resetButton').click(function() {
+        champions.reset().then(
+            champions.getActiveCharacters().then(characters => {
+                characters.forEach(character => {
+                    recover(character.id, true);
+                });
+            })
+        ).then(findNext());
     });
 
     // Advance to the next player's phase.
@@ -495,7 +501,7 @@ $(function() {
         if (migrate === true) {
             champions.migrate();
         }
-        renderCampaignList()
+        renderCampaignList();
         renderCombatTable();
     }
 
